@@ -1,0 +1,64 @@
+table {
+    border-collapse: collapse !important;
+    
+}
+
+td, th {
+   border:none !important;
+   vertical-align: top;
+}
+td:first-child {
+  white-space: nowrap;
+}
+
+body 
+{
+ margin-top:10px;
+ margin-left:100px;
+ margin-right:100px;
+
+}
+.right{
+    float:right;
+}
+
+.left{
+    float:left;
+}
+
+blockquote {
+    border-left:none;
+    font-size: 1em;
+    display: block;
+    margin-top: .25em;
+    margin-left: 20px;
+}
+
+h2 {
+  color:#4D4D4D;
+}
+
+.column {
+    float: left;
+    padding: 15px;
+}
+
+.prettycol::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.sidebar {
+    width: 25%;
+}
+
+.content {
+    width: 75%;
+}
+
+@font-face
+{
+  font-family: 'myFancyFont';
+  src: url('fonts/SCRIPTIN.ttf');
+}

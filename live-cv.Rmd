@@ -1,0 +1,147 @@
+---
+output: 
+  html_document:
+    css: style.css
+---
+<h1><span style="font-family:myFancyFont; font-size:3em;">Lucy</span> D'Agostino McGowan</h1> <br>
+
+<div class="prettycol">
+  <div class="column sidebar">
+
+**contact**  
+2525 West End 11000
+Nashville, TN 37203
+
+**website**  
+[lucymcgowan.com](http://lucymcgowan.com)
+
+**twitter**  
+[LucyStats](http://twitter.com/LucyStats)
+
+**github**  
+[LucyMcGowan](http://github.com/LucyMcGowan)
+
+**orcid**  
+[0000-0001-7297-9359](http://orcid.org/0000-0001-7297-9359)
+
+**languages**  
+proficient Italian literary,
+written, & oral skills
+
+**programming**  
+**dev:** R **use:** R, SAS,
+Stata, Python, ArcGIS
+
+**defining attributes**
+goal-driven leadership,
+advanced analytic skills,
+strategic thinking,
+resourceful team player,
+sunny disposition `r emo::ji("sunflower")`,
+public speaking,
+organizational &
+communication skills
+  </div>
+<h2> <span style='color:#26D1EA'>Int</span>erests </h2>
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library("googlesheets")
+library("dplyr")
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+data <- gs_url("https://docs.google.com/spreadsheets/d/1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU/edit#gid=0", verbose = FALSE) %>%
+  gs_read(verbose = FALSE) %>%
+  arrange(label, desc(when))
+```
+
+```{r, echo = FALSE, results = "asis"}
+interests <- data %>%
+  filter(label == "interests") %>%
+  select(what)
+cat(paste(interests$what, collapse = ", "))
+```
+
+<h2><span style='color:#C2E15F'>Edu</span>cation </h2>
+
+**PhD** Student in Biostatistics, GPA 3.95 <span class='right' style='color:gray'>Vanderbilt University</span>
+
+**MS** in Biostatistics, December 2013, GPA 3.88 <span class='right' style='color:gray'>Washington University School of Medicine</span>  <br>
+*Thesis: Quantitative Assessment of the Community Research Fellows Training Program*
+
+**BA** with Distinction and Highest Honors <span class='right' style='color:gray'> University of North Carolina at Chapel Hill</span>  <br>
+Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
+
+
+<h2><span style='color:#FDA333'>Res</span>earch Experience </h2>
+
+```{r, echo = FALSE}
+research <- data %>%
+  filter(label == "research") %>%
+  select(when, what)
+htmlTable::htmlTable(research, 
+                     header = c(NA,NA) ,
+                     rnames = FALSE,
+                     align = "ll",
+                     css.cell = "padding-left: .5em; padding-right: .2em;")
+```
+
+<h2> <span style='color:#D3A4F9'>Awa</span>rds</h2>
+
+```{r, echo = FALSE}
+awards <- data %>%
+  filter(label == "awards") %>%
+  select(when, what)
+htmlTable::htmlTable(awards, 
+                     header = c(NA,NA) ,
+                     rnames = FALSE,
+                     align = "ll",
+                     css.cell = "padding-left: .5em; padding-right: .2em;")
+```
+
+<h2> <span style='color:#FB4485'>Out</span>reach</h2>
+
+```{r, echo = FALSE}
+outreach <- data %>%
+  filter(label == "outreach") %>%
+  select(when, what)
+htmlTable::htmlTable(outreach, 
+                     header = c(NA,NA) ,
+                     rnames = FALSE,
+                     align = "ll",
+                     css.cell = "padding-left: .5em; padding-right: .2em;")
+```
+
+<h2> <span style='color:#26D1EA'>Sel</span>ect Invited Presentations</h2>
+
+```{r, results = "asis", echo = FALSE}
+presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
+  gs_read(verbose = FALSE) %>%
+  arrange(invited, desc(when))
+
+invited <- presentations %>%
+  filter(invited == 1)
+
+glue::glue_data(invited, "<span class='right' style='color:gray'> {what} </span> <span class'left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
+```
+
+<h2> <span style='color:#C2E15F'>Con</span>tributed Presentations </h2>
+
+```{r, results = "asis", echo = FALSE}
+contrib <- presentations %>%
+  filter(invited == 0)
+
+glue::glue_data(contrib, "<span class='right' style='color:gray'> {what} </span> <span class'left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
+```
+
+<h2><span style='color:#FDA333'>Peer</span>-reviewed Publications</h2>
+
+```{r, results = "asis", echo = FALSE}
+papers <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
+  gs_read(verbose = FALSE) %>%
+  arrange(desc(Year))
+
+glue::glue_data(papers, "{Authors} ({Year}). {Title}. *{Publication}, {Volume}*({Number}), {Pages}. <br><br>")
+```
+
+</div>
