@@ -62,3 +62,23 @@ h2 {
   font-family: 'myFancyFont';
   src: url('fonts/SCRIPTIN.ttf');
 }
+
+/* unvisited link */
+a:link {
+    color:##2A5DB0;
+}
+
+/* visited link */
+a:visited {
+    color:#C2E15F;
+}
+
+/* mouse over link */
+a:hover {
+    color:#D3A4F9;
+}
+
+/* selected link */
+a:active {
+    color:#C2E15F;
+}

@@ -24,6 +24,18 @@ Nashville, TN 37203
 **orcid**  
 [0000-0001-7297-9359](http://orcid.org/0000-0001-7297-9359)
 
+**jump to section**
+
+<a href="#interests">Interests</a>  
+<a href="#education">Education</a>  
+<a href="#research">Research Experience</a>  
+<a href="#awards">Awards</a>  
+<a href="#outreach">Outreach</a>  
+<a href="#invited">Invited Presentations</a>  
+<a href="#contributed">Contributed Presentations</a>  
+<a href="#software">Software</a>  
+<a href="#pubs">Peer-reviewed Publications</a>  
+
 **languages**  
 proficient Italian literary,
 written, & oral skills
@@ -42,7 +54,7 @@ public speaking,
 organizational &
 communication skills
   </div>
-<h2> <span style='color:#26D1EA'>Int</span>erests </h2>
+<h2 id="interests"> <span style='color:#26D1EA'>Int</span>erests </h2>
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library("googlesheets")
@@ -62,7 +74,7 @@ interests <- data %>%
 cat(paste(interests$what, collapse = ", "))
 ```
 
-<h2><span style='color:#C2E15F'>Edu</span>cation </h2>
+<h2 id="education"><span style='color:#C2E15F'>Edu</span>cation </h2>
 
 **PhD** Student in Biostatistics, GPA 3.95 <span class='right' style='color:gray'>Vanderbilt University</span>
 
@@ -73,7 +85,7 @@ cat(paste(interests$what, collapse = ", "))
 Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
 
 
-<h2><span style='color:#FDA333'>Res</span>earch Experience </h2>
+<h2 id="research"><span style='color:#FDA333'>Res</span>earch Experience </h2>
 
 ```{r, echo = FALSE}
 research <- data %>%
@@ -86,7 +98,7 @@ htmlTable::htmlTable(research,
                      css.cell = "padding-left: .5em; padding-right: .2em;")
 ```
 
-<h2> <span style='color:#D3A4F9'>Awa</span>rds</h2>
+<h2 id="awards"> <span style='color:#D3A4F9'>Awa</span>rds</h2>
 
 ```{r, echo = FALSE}
 awards <- data %>%
@@ -99,7 +111,7 @@ htmlTable::htmlTable(awards,
                      css.cell = "padding-left: .5em; padding-right: .2em;")
 ```
 
-<h2> <span style='color:#FB4485'>Out</span>reach</h2>
+<h2 id="outreach"> <span style='color:#FB4485'>Out</span>reach</h2>
 
 ```{r, echo = FALSE}
 outreach <- data %>%
@@ -112,7 +124,7 @@ htmlTable::htmlTable(outreach,
                      css.cell = "padding-left: .5em; padding-right: .2em;")
 ```
 
-<h2> <span style='color:#26D1EA'>Sel</span>ect Invited Presentations</h2>
+<h2 id="invited"> <span style='color:#26D1EA'>Sel</span>ect Invited Presentations</h2>
 
 ```{r, results = "asis", echo = FALSE}
 presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
@@ -125,7 +137,7 @@ invited <- presentations %>%
 glue::glue_data(invited, "<span class='right' style='color:gray'> {what} </span> <span class'left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
 ```
 
-<h2> <span style='color:#C2E15F'>Con</span>tributed Presentations </h2>
+<h2 id="contributed"> <span style='color:#C2E15F'>Con</span>tributed Presentations </h2>
 
 ```{r, results = "asis", echo = FALSE}
 contrib <- presentations %>%
@@ -134,14 +146,52 @@ contrib <- presentations %>%
 glue::glue_data(contrib, "<span class='right' style='color:gray'> {what} </span> <span class'left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
 ```
 
-<h2><span style='color:#FDA333'>Peer</span>-reviewed Publications</h2>
+<h2 id="software"><span style='color:#FDA333'>Sof</span>tware</h2>
+
+```{r, echo = FALSE}
+pubs <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
+  gs_read(verbose = FALSE) %>%
+  arrange(type, desc(year))
+
+software <- pubs %>%
+  filter(type == "software")
+
+software_cite <- function(x) {
+  glue::glue_data(x, "[**{title}**]({link}): {description} <br><br>")
+}
+```
+
+#### Author & Maintainer
 
 ```{r, results = "asis", echo = FALSE}
-papers <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
-  gs_read(verbose = FALSE) %>%
-  arrange(desc(Year))
+software %>%
+  filter(authors == "maintainer") %>%
+  software_cite()
+```
 
-glue::glue_data(papers, "{Authors} ({Year}). {Title}. *{Publication}, {Volume}*({Number}), {Pages}. <br><br>")
+#### Author
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "author") %>%
+  software_cite()
+```
+
+#### Contributer
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "contributer") %>%
+  software_cite()
+```
+
+<h2 id="pubs"><span style='color:#D3A4F9'>Peer</span>-reviewed Publications</h2>
+
+```{r, results = "asis", echo = FALSE}
+papers <- pubs %>%
+  filter(type == "article")
+
+glue::glue_data(papers, "{authors} ({year}). {title}. *{publication}, {volume}*({number}), {pages}. <br><br>")
 ```
 
 </div>
