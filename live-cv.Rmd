@@ -3,11 +3,14 @@ output:
   html_document:
     css: style.css
 ---
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+</head>
 <h1><span style="font-family:myFancyFont; font-size:3em;">Lucy</span> D'Agostino McGowan</h1> <br>
 
 <div class="prettycol">
   <div class="column sidebar">
-
 **contact**  
 2525 West End 11000
 Nashville, TN 37203
@@ -53,7 +56,8 @@ sunny disposition `r emo::ji("sunflower")`,
 public speaking,
 organizational &
 communication skills
-  </div>
+
+</div>
 <h2 id="interests"> <span style='color:#26D1EA'>Int</span>erests </h2>
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -75,13 +79,15 @@ cat(paste(interests$what, collapse = ", "))
 ```
 
 <h2 id="education"><span style='color:#C2E15F'>Edu</span>cation </h2>
+<span class='right' style='color:gray'>Vanderbilt University</span>
+**PhD** Student in Biostatistics, GPA 3.95 
 
-**PhD** Student in Biostatistics, GPA 3.95 <span class='right' style='color:gray'>Vanderbilt University</span>
-
-**MS** in Biostatistics, December 2013, GPA 3.88 <span class='right' style='color:gray'>Washington University School of Medicine</span>  <br>
+<span class='right' style='color:gray'>Washington University School of Medicine</span>
+**MS** in Biostatistics, December 2013, GPA 3.88   <br>
 *Thesis: Quantitative Assessment of the Community Research Fellows Training Program*
 
-**BA** with Distinction and Highest Honors <span class='right' style='color:gray'> University of North Carolina at Chapel Hill</span>  <br>
+<span class='right' style='color:gray'> University of North Carolina at Chapel Hill</span>
+**BA** with Distinction and Highest Honors   <br>
 Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
 
 

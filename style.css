@@ -7,9 +7,7 @@ td, th {
    border:none !important;
    vertical-align: top;
 }
-td:first-child {
-  white-space: nowrap;
-}
+
 
 body 
 {
@@ -50,11 +48,36 @@ h2 {
 }
 
 .sidebar {
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+}
+
+@media only screen and (min-width: 700px) {
+
+td:first-child {
+  white-space: nowrap;
+}
+.column {
+    float: left;
+    padding: 15px;
+}
+
+.prettycol::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.sidebar {
     width: 25%;
 }
 
 .content {
     width: 75%;
+}
 }
 
 @font-face
