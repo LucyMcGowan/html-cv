@@ -12,8 +12,8 @@ td, th {
 body 
 {
  margin-top:10px;
- margin-left:100px;
- margin-right:100px;
+ margin-left:10px;
+ margin-right:10px;
 
 }
 .right{
@@ -56,6 +56,14 @@ h2 {
 }
 
 @media only screen and (min-width: 700px) {
+
+body 
+{
+ margin-top:10px;
+ margin-left:100px;
+ margin-right:100px;
+
+}
 
 td:first-child {
   white-space: nowrap;
