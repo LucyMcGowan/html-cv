@@ -129,11 +129,13 @@ htmlTable::htmlTable(outreach,
 
 <h2 id="invited"> <span style='color:#26D1EA'>Sel</span>ect Invited Presentations</h2>
 
-```{r, results = "asis", echo = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
   gs_read(verbose = FALSE) %>%
   arrange(invited, desc(when))
+```
 
+```{r, results = "asis", echo = FALSE}
 invited <- presentations %>%
   filter(invited == 1)
 
@@ -151,11 +153,13 @@ glue::glue_data(contrib, "<span class='right' style='color:gray'> {what} </span>
 
 <h2 id="software"><span style='color:#FDA333'>Sof</span>tware</h2>
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 pubs <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
   gs_read(verbose = FALSE) %>%
   arrange(type, desc(year))
+```
 
+```{r, echo = FALSE}
 software <- pubs %>%
   filter(type == "software")
 
