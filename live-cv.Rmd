@@ -127,7 +127,7 @@ htmlTable::htmlTable(outreach,
                      css.cell = "padding-left: .5em; padding-right: .2em;")
 ```
 
-<h2 id="invited"> <span style='color:#26D1EA'>Sel</span>ect Invited Presentations</h2>
+<h2 id="invited"> <span style='color:#26D1EA'>Inv</span>ited Presentations</h2>
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
@@ -135,7 +135,7 @@ presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_Ld
   arrange(invited, desc(when))
 ```
 
-```{r, results = "asis", echo = FALSE}
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
 invited <- presentations %>%
   filter(invited == 1)
 
