@@ -164,7 +164,7 @@ data %>%
 ```{r, echo = FALSE, results = "asis"}
 data %>%
   filter(label == "teaching_vandy") %>%
-  glue::glue_data("* {what} <br>")
+  glue::glue_data("* {what} ({when}) <br>")
 ```
 
 #### Washington University in St. Louis
@@ -172,7 +172,7 @@ data %>%
 ```{r, echo = FALSE, results = "asis"}
 data %>%
   filter(label == "teaching_wustl") %>%
-  glue::glue_data("* {what} <br>")
+  glue::glue_data("* {what} ({when}) <br>")
 ```
 
 ### Online Courses
@@ -180,7 +180,7 @@ data %>%
 ```{r, echo = FALSE, results = "asis"}
 data %>%
   filter(label == "teaching_online") %>%
-  glue::glue_data("* {what} <br>")
+  glue::glue_data("* {what} ({when}) <br>")
 ```
 
 <h2 id="invited"> <span style='color:#FDA333'>Inv</span>ited Presentations</h2>
