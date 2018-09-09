@@ -77,7 +77,7 @@ cat(paste(interests$what, collapse = ", "))
 
 <h2 id="education"><span style='color:#C2E15F'>Edu</span>cation </h2>
 <span class='right' style='color:gray'>Vanderbilt University</span>
-**PhD** in Biostatistics May 2018, GPA 3.95 
+**PhD** in Biostatistics May 2018, GPA 3.95 <br>
 *Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*
 
 <span class='right' style='color:gray'>Washington University School of Medicine</span>
