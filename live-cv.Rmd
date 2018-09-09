@@ -63,7 +63,7 @@ library("dplyr")
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-data <- gs_url("https://docs.google.com/spreadsheets/d/1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU/edit#gid=0", verbose = FALSE) %>%
+data <- gs_url("https://docs.google.com/spreadsheets/d/1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU/edit#gid=0", lookup = TRUE, verbose = FALSE) %>%
   gs_read(verbose = FALSE) %>%
   arrange(label, desc(when))
 ```
@@ -77,7 +77,8 @@ cat(paste(interests$what, collapse = ", "))
 
 <h2 id="education"><span style='color:#C2E15F'>Edu</span>cation </h2>
 <span class='right' style='color:gray'>Vanderbilt University</span>
-**PhD** Student in Biostatistics, GPA 3.95 
+**PhD** in Biostatistics May 2018, GPA 3.95 
+*Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*
 
 <span class='right' style='color:gray'>Washington University School of Medicine</span>
 **MS** in Biostatistics, December 2013, GPA 3.88   <br>
@@ -139,7 +140,7 @@ presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_Ld
 invited <- presentations %>%
   filter(invited == 1)
 
-glue::glue_data(invited, "<span class='right' style='color:gray'> {what} </span> <span class'left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
+glue::glue_data(invited, "<span class='right' style='color:gray'> {what} </span> <span class='left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
 ```
 
 <h2 id="contributed"> <span style='color:#C2E15F'>Con</span>tributed Presentations </h2>
@@ -148,7 +149,7 @@ glue::glue_data(invited, "<span class='right' style='color:gray'> {what} </span>
 contrib <- presentations %>%
   filter(invited == 0)
 
-glue::glue_data(contrib, "<span class='right' style='color:gray'> {what} </span> <span class'left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
+glue::glue_data(contrib, "<span class='right' style='color:gray'> {what} </span> <span class='left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
 ```
 
 <h2 id="software"><span style='color:#FDA333'>Sof</span>tware</h2>
@@ -196,7 +197,7 @@ software %>%
 
 ```{r, results = "asis", echo = FALSE}
 papers <- pubs %>%
-  filter(type == "article")
+  filter(pub_type == "2")
 
 glue::glue_data(papers, "{authors} ({year}). {title}. *{publication}, {volume}*({number}), {pages}. <br><br>")
 ```
