@@ -254,7 +254,7 @@ software %>%
 papers <- pubs %>%
   filter(pub_type == "2")
 
-glue::glue_data(papers, "{authors} ({year}). {title}. *{publication}, {volume}*({number}), {pages}. <br><br>")
+glue::glue_data(papers, "1. {authors} ({year}). {title}. *{publication}, {volume}*({number}), {pages}. <br><br>")
 ```
 
 </div>
