@@ -31,6 +31,8 @@ Nashville, TN 37203
 <a href="#research">Research Experience</a>  
 <a href="#awards">Awards</a>  
 <a href="#outreach">Outreach</a>  
+<a href="#professional">Professional Activities</a>  
+<a href="#teaching">Teaching Experience</a>  
 <a href="#invited">Invited Presentations</a>  
 <a href="#contributed">Contributed Presentations</a>  
 <a href="#software">Software</a>  
@@ -77,7 +79,7 @@ cat(paste(interests$what, collapse = ", "))
 
 <h2 id="education"><span style='color:#C2E15F'>Edu</span>cation </h2>
 <span class='right' style='color:gray'>Vanderbilt University</span>
-**PhD** in Biostatistics May 2018, GPA 3.95 <br>
+**PhD** in Biostatistics, May 2018, GPA 3.95 <br>
 *Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*
 
 <span class='right' style='color:gray'>Washington University School of Medicine</span>
@@ -128,7 +130,60 @@ htmlTable::htmlTable(outreach,
                      css.cell = "padding-left: .5em; padding-right: .2em;")
 ```
 
-<h2 id="invited"> <span style='color:#26D1EA'>Inv</span>ited Presentations</h2>
+<h2 id="professional"> <span style='color:#26D1EA'>Pro</span>fessional Activities</h2>
+
+#### Professional Service
+
+```{r, echo = FALSE}
+data %>%
+  filter(label == "professional_service") %>%
+  select(when, what) %>%
+  htmlTable::htmlTable( 
+                     header = c(NA,NA) ,
+                     rnames = FALSE,
+                     align = "ll",
+                     css.cell = "padding-left: .5em; padding-right: .2em;")
+
+```
+
+
+#### Referee
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "referee") %>%
+  glue::glue_data("* {what} <br>")
+```
+
+<h2 id="teaching"> <span style='color:#C2E15F'>Tea</span>ching Experience</h2>
+
+### University Courses
+
+#### Vanderbilt University
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_vandy") %>%
+  glue::glue_data("* {what} <br>")
+```
+
+#### Washington University in St. Louis
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_wustl") %>%
+  glue::glue_data("* {what} <br>")
+```
+
+### Online Courses
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_online") %>%
+  glue::glue_data("* {what} <br>")
+```
+
+<h2 id="invited"> <span style='color:#FDA333'>Inv</span>ited Presentations</h2>
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
@@ -143,7 +198,7 @@ invited <- presentations %>%
 glue::glue_data(invited, "<span class='right' style='color:gray'> {what} </span> <span class='left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
 ```
 
-<h2 id="contributed"> <span style='color:#C2E15F'>Con</span>tributed Presentations </h2>
+<h2 id="contributed"> <span style='color:#D3A4F9'>Con</span>tributed Presentations </h2>
 
 ```{r, results = "asis", echo = FALSE}
 contrib <- presentations %>%
@@ -152,7 +207,7 @@ contrib <- presentations %>%
 glue::glue_data(contrib, "<span class='right' style='color:gray'> {what} </span> <span class='left'>**{where}**</span> <br> <blockquote> {who}, [\"{title}.\"]({link}) </blockquote>")
 ```
 
-<h2 id="software"><span style='color:#FDA333'>Sof</span>tware</h2>
+<h2 id="software"><span style='color:#FB4485'>Sof</span>tware</h2>
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 pubs <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
@@ -193,7 +248,7 @@ software %>%
   software_cite()
 ```
 
-<h2 id="pubs"><span style='color:#D3A4F9'>Peer</span>-reviewed Publications</h2>
+<h2 id="pubs"><span style='color:#26D1EA'>Peer</span>-reviewed Publications</h2>
 
 ```{r, results = "asis", echo = FALSE}
 papers <- pubs %>%
