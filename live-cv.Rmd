@@ -254,6 +254,8 @@ software %>%
 
 
 ```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
+options(width = 500)
+
 papers <- pubs %>%
   filter(type == "article")
 

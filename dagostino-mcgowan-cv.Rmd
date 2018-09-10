@@ -252,6 +252,7 @@ software %>%
 
 
 ```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
+options(width = 500)
 papers <- pubs %>%
   filter(type == "article")
 
@@ -261,8 +262,7 @@ writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
 
 bibtex::read.bib("lucy.bib") %>%
   capture.output() %>%
-  stringr::str_replace_all("D'Agostino", "**D'Agostino**") %>%
-  stringr::str_replace_all("McGowan L", "**McGowan L**") %>%
+  stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
   stringr::str_replace_all("“", "``") %>%
   ifelse(. == "", "\n\n 1.", .) %>%
   unlist() %>%
