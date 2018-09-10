@@ -1,0 +1,259 @@
+---
+output: 
+  pdf_document:
+    keep_tex: yes
+    latex_engine: xelatex
+fontsize: 12pt
+geometry: margin=0.5in
+subparagraph: yes
+header-includes:
+  - \usepackage{titlesec}
+  - \usepackage{calligra}
+  - \usepackage{tabto}
+  - \usepackage{xcolor}
+  - \usepackage{fontawesome}
+  - \usepackage{academicons}
+  - \usepackage{fancyhdr}
+  - \definecolor{lightgray}{HTML}{999999}
+  - \fancyfoot[RE,RO]{Updated \today}
+  - \fancyfoot[LE,RO]{\thepage}
+  - '\titleformat{\subsection}{\centering\Large\scshape}{\thesubsection}{1em}{}'
+  - '\newcommand{\fn}[1]{\hfill \textsc{\small{\color{lightgray} #1}}}'
+---
+
+\begin{center}
+{\Huge {\calligra Lucy}}\hspace{0.1cm}{\Large \textbf{D'Agostino McGowan}}
+
+\href{https://www.lucymcgowan.com}{www.lucymcgowan.com}
+
+\faGithub \hspace{0.1cm} \href{http://github.com/LucyMcGowan}{LucyMcGowan} \hspace{0.1cm}\faTwitter \hspace{0.1cm}  \href{http://twitter.com/LucyStats}{LucyStats} \hspace{0.1cm} \aiOrcid \hspace{0.1cm}  \href{http://orcid.org/0000-0001-7297-9359}{0000-0001-7297-9359}
+\end{center}
+
+**defining attributes**
+*goal-driven leadership, advanced analytic skills, strategic thinking, resourceful team player, sunny disposition, public speaking, organizational & communication skills*
+<!-- ## Interests -->
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library("googlesheets")
+library("dplyr")
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+data <- gs_url("https://docs.google.com/spreadsheets/d/1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU/edit#gid=0", lookup = TRUE, verbose = FALSE) %>%
+  gs_read(verbose = FALSE) %>%
+  arrange(label, desc(when))
+```
+
+<!-- ```{r, echo = FALSE, results = "asis"} -->
+<!-- interests <- data %>% -->
+<!--   filter(label == "interests") %>% -->
+<!--   select(what) -->
+<!-- cat(paste(interests$what, collapse = ", ")) -->
+<!-- ``` -->
+
+## Education
+
+**PhD** in Biostatistics, May 2018, GPA 3.95 \fn{Vanderbilt University}  
+*Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*  
+
+\vspace{0.25cm}
+
+**MS** in Biostatistics, December 2013, GPA 3.88 \fn{Washington University School of Medicine}   
+*Thesis: Quantitative Assessment of the Community Research Fellows Training Program*  
+
+\vspace{0.25cm}
+
+**BA** with Distinction and Highest Honors\fn{University of North Carolina at Chapel Hill}  
+Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
+
+
+## Research Experience
+
+\TabPositions{4cm}
+
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "research") %>%
+  select(when, what) %>%
+  mutate(
+    where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
+    what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
+  ) %>%
+  glue::glue_data("<when> \\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
+                  "\n\n\n\\vspace{0.25cm}",
+                  .open = "<", .close = ">")
+```
+
+## Programming
+
+**Develop:** R  
+**Use:** R, SAS, Stata, Python, ArcGIS
+
+## Awards
+
+\TabPositions{2cm}
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "awards") %>%
+  select(when, what) %>%
+  mutate(
+    link = case_when(
+      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
+      TRUE ~ ""
+    ),
+    title = case_when(
+      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
+      TRUE ~ ""
+    ),
+    what = case_when(
+      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
+                                      "{<title>}",
+                                      .open = "<", .close = ">" ),
+      TRUE ~ what
+    )
+  ) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+```
+
+## Outreach
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "outreach") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+```
+
+## Professional Activities
+
+#### Professional Service
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "professional_service") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+
+#### Referee
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "referee") %>%
+  glue::glue_data("* {what}")
+```
+
+## Teaching Experience
+
+### University Courses
+
+#### Vanderbilt University
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_vandy") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+#### Washington University in St. Louis
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_wustl") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+### Online Courses
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_online") %>%
+  glue::glue_data("* {what} ({when})  ")
+```
+
+## Invited Presentations
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
+  gs_read(verbose = FALSE) %>%
+  arrange(invited, desc(when))
+```
+
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
+presentations %>%
+  filter(invited == 1) %>%
+  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>,",
+                  "\\href{<link>}{\"<title>.\"}\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+## Contributed Presentations
+
+```{r, results = "asis", echo = FALSE}
+presentations %>%
+  filter(invited == 0) %>% 
+  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>,",
+                  "\\href{<link>}{\"<title>.\"}\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+## Software
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+pubs <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
+  gs_read(verbose = FALSE) %>%
+  arrange(type, desc(year))
+```
+
+```{r, echo = FALSE}
+software <- pubs %>%
+  filter(type == "software")
+
+software_cite <- function(x) {
+  glue::glue_data(x, "[**{title}**]({link}): {description} \n\n\n")
+}
+```
+
+#### Author & Maintainer
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "maintainer") %>%
+  software_cite()
+```
+
+#### Author
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "author") %>%
+  software_cite()
+```
+
+#### Contributer
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "contributer") %>%
+  software_cite()
+```
+
+## Peer-reviewed Publications
+
+```{r, results = "asis", echo = FALSE}
+papers <- pubs %>%
+  filter(pub_type == "2")
+
+glue::glue_data(papers, "1. {authors} ({year}). {title}. *{publication}, {volume}*({number}), {pages}.\n\n\n")
+```
+
+
