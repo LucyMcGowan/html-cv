@@ -155,7 +155,7 @@ data %>%
 
 ## Teaching Experience
 
-#### Vanderbilt University
+### Vanderbilt University
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -163,7 +163,7 @@ data %>%
   glue::glue_data("* {what} ({when})")
 ```
 
-#### Washington University in St. Louis
+### Washington University in St. Louis
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -224,7 +224,7 @@ software_cite <- function(x) {
 }
 ```
 
-#### Author & Maintainer
+### Author & Maintainer
 
 ```{r, results = "asis", echo = FALSE}
 software %>%
@@ -232,7 +232,7 @@ software %>%
   software_cite()
 ```
 
-#### Author
+### Author
 
 ```{r, results = "asis", echo = FALSE}
 software %>%
@@ -240,7 +240,7 @@ software %>%
   software_cite()
 ```
 
-#### Contributer
+### Contributer
 
 ```{r, results = "asis", echo = FALSE}
 software %>%
@@ -248,13 +248,25 @@ software %>%
   software_cite()
 ```
 
-## Peer-reviewed Publications
+## Publications
 
-```{r, results = "asis", echo = FALSE}
+
+```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
 papers <- pubs %>%
-  filter(pub_type == "2")
+  filter(type == "article")
 
-glue::glue_data(papers, "1. {authors} ({year}). {title}. *{publication}, {volume}*({number}), {pages}.\n\n\n")
+writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
+           con = "lucy.bib"
+)
+
+bibtex::read.bib("lucy.bib") %>%
+  capture.output() %>%
+  stringr::str_replace_all("D'Agostino", "**D'Agostino**") %>%
+  stringr::str_replace_all("McGowan L", "**McGowan L**") %>%
+  stringr::str_replace_all("“", "``") %>%
+  ifelse(. == "", "\n\n 1.", .) %>%
+  unlist() %>%
+  c("1.", .) %>%
+  cat()
 ```
-
 

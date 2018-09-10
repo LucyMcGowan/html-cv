@@ -7,7 +7,7 @@ output:
 <h1><span style="font-family:myFancyFont; font-size:3em;">Lucy</span> D'Agostino McGowan</h1> <br>
 
 <div class="prettycol">
-  <div class="column sidebar">
+<div class="column sidebar">
 **contact**  
 2525 West End 11000
 Nashville, TN 37203
@@ -141,10 +141,10 @@ data %>%
   filter(label == "professional_service") %>%
   select(when, what) %>%
   htmlTable::htmlTable( 
-                     header = c(NA,NA) ,
-                     rnames = FALSE,
-                     align = "ll",
-                     css.cell = "padding-left: .5em; padding-right: .2em;")
+    header = c(NA,NA) ,
+    rnames = FALSE,
+    align = "ll",
+    css.cell = "padding-left: .5em; padding-right: .2em;")
 
 ```
 
@@ -250,13 +250,26 @@ software %>%
   software_cite()
 ```
 
-<h2 id="pubs"><span style='color:#26D1EA'>Peer</span>-reviewed Publications</h2>
+<h2 id="pubs"><span style='color:#26D1EA'>Pub</span>lications</h2>
 
-```{r, results = "asis", echo = FALSE}
+
+```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
 papers <- pubs %>%
-  filter(pub_type == "2")
+  filter(type == "article")
 
-glue::glue_data(papers, "1. {authors} ({year}). {title}. *{publication}, {volume}*({number}), {pages}. <br><br>")
+writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
+           con = "lucy.bib"
+)
+
+bibtex::read.bib("lucy.bib") %>%
+  capture.output() %>%
+  stringr::str_replace_all("D'Agostino", "**D'Agostino**") %>%
+  stringr::str_replace_all("McGowan L", "**McGowan L**") %>%
+  ifelse(. == "", "\n\n 1.", .) %>%
+  unlist() %>%
+  c("1.", .) %>%
+  cat()
 ```
+
 
 </div>
