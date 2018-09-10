@@ -1,10 +1,9 @@
 ---
 output: 
   pdf_document:
-    keep_tex: yes
     latex_engine: xelatex
 fontsize: 12pt
-geometry: margin=0.75in
+geometry: margin=0.55in
 subparagraph: yes
 header-includes:
   - \usepackage{titlesec}
