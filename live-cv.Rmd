@@ -38,7 +38,7 @@ Nashville, TN 37203
 <a href="#invited">Invited Presentations</a>  
 <a href="#contributed">Contributed Presentations</a>  
 <a href="#software">Software</a>  
-<a href="#pubs">Peer-reviewed Publications</a>  
+<a href="#pubs">Publications</a>  
 
 **languages**  
 proficient Italian literary,
