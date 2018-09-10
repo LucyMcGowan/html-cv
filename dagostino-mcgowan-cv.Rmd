@@ -4,7 +4,7 @@ output:
     keep_tex: yes
     latex_engine: xelatex
 fontsize: 12pt
-geometry: margin=0.5in
+geometry: margin=0.75in
 subparagraph: yes
 header-includes:
   - \usepackage{titlesec}
@@ -15,8 +15,11 @@ header-includes:
   - \usepackage{academicons}
   - \usepackage{fancyhdr}
   - \definecolor{lightgray}{HTML}{999999}
-  - \fancyfoot[RE,RO]{Updated \today}
-  - \fancyfoot[LE,RO]{\thepage}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \renewcommand{\headrulewidth}{0pt}
+  - \fancyfoot[C]{\thepage}
+  - '\fancyfoot[R]{\footnotesize \color{lightgray} \textsc{Updated \today}}'
   - '\titleformat{\subsection}{\centering\Large\scshape}{\thesubsection}{1em}{}'
   - '\newcommand{\fn}[1]{\hfill \textsc{\small{\color{lightgray} #1}}}'
 ---
@@ -152,8 +155,6 @@ data %>%
 
 ## Teaching Experience
 
-### University Courses
-
 #### Vanderbilt University
 
 ```{r, echo = FALSE, results = "asis"}
@@ -200,7 +201,7 @@ presentations %>%
 ```{r, results = "asis", echo = FALSE}
 presentations %>%
   filter(invited == 0) %>% 
-  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.5cm}",
                   "\\begin{quote}<gsub('\\\\*', '', who)>,",
                   "\\href{<link>}{\"<title>.\"}\\end{quote}",
                   .open = "<", .close = ">")
