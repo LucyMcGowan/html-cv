@@ -1,2 +1,2 @@
 rmarkdown::render("live-cv.Rmd")
-rmarkdown::render("dagostino-mcgowan-cv.pdf")
+rmarkdown::render("dagostino-mcgowan-cv.Rmd")
