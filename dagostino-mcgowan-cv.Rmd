@@ -3,7 +3,7 @@ output:
   pdf_document:
     latex_engine: xelatex
 fontsize: 12pt
-geometry: margin=0.55in
+geometry: margin=0.55in, footskip=0.75cm
 subparagraph: yes
 header-includes:
   - \usepackage{titlesec}
@@ -132,7 +132,8 @@ data %>%
 
 ## Professional Activities
 
-#### Professional Service
+### Professional Service  
+   
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -144,7 +145,7 @@ data %>%
 ```
 
 
-#### Referee
+### Referee
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -190,8 +191,8 @@ presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_Ld
 presentations %>%
   filter(invited == 1) %>%
   glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>,",
-                  "\\href{<link>}{\"<title>.\"}\\end{quote}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
+                  "\\href{<link>}{``<title>.\"}\\end{quote}",
                   .open = "<", .close = ">")
 ```
 
@@ -201,8 +202,8 @@ presentations %>%
 presentations %>%
   filter(invited == 0) %>% 
   glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.5cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>,",
-                  "\\href{<link>}{\"<title>.\"}\\end{quote}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
+                  "\\href{<link>}{``<title>.\"}\\end{quote}",
                   .open = "<", .close = ">")
 ```
 
