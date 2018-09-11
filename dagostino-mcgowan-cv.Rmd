@@ -87,10 +87,11 @@ data %>%
                   .open = "<", .close = ">")
 ```
 
-## Programming
+## Computing
 
-**Develop:** R  
-**Use:** R, SAS, Stata, Python, ArcGIS
+**Expert:** R, Shiny, Git/GitHub, \LaTeX, HTML/CSS, SAS  
+
+**Familiar:** Python, Stata, ArcGIS
 
 ## Awards
 
