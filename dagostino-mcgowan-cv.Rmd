@@ -134,7 +134,7 @@ data %>%
 ## Professional Activities
 
 ### Professional Service  
-   
+
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -269,5 +269,16 @@ bibtex::read.bib("lucy.bib") %>%
   unlist() %>%
   c("1.", .) %>%
   cat()
+```
+
+## Press
+
+```{r, echo = FALSE, results = "asis"}
+pubs %>%
+  filter(type == "press") %>%
+  glue::glue_data("**<title>** (<year>) \\textit{<publication>}. ",
+                  "Available at: ",
+                  "\\url{<link>}\n\n\\vspace{0.5cm}", 
+                  .open = "<", .close = ">")
 ```
 
