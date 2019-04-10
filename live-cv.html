@@ -344,9 +344,7 @@ color:#C2E15F;
 }
 </style>
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -371,22 +369,92 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -536,6 +604,14 @@ proficient Italian literary, written, &amp; oral skills</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: left;">
+2019
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: left;">
+Winning team, ASA Leadership Challenge
+</td>
+</tr>
 <tr>
 <td style="padding-left: .5em; padding-right: .2em; text-align: left;">
 2018
@@ -931,6 +1007,10 @@ Abstract reviewer, Applied Public Health Statistics, American Public Health Asso
 <h2 id="invited">
 <span style="color:#FDA333">Inv</span>ited Presentations
 </h2>
+<span class="right" style="color:gray"> Tutorial </span> <span class="left"><strong>ENAR 2019</strong></span> <br>
+<blockquote>
+<strong>Lucy D’Agostino McGowan</strong>, <a href="https://leanpub.com/ggplot2in2/">“Data Visualizations with ggplot2.”</a>
+</blockquote>
 <span class="right" style="color:gray"> Oral Presentation </span> <span class="left"><strong>ENAR 2018</strong></span> <br>
 <blockquote>
 <strong>Lucy D’Agostino McGowan</strong>, Robert A. Greevy, Jr, <a href="https://lucymcgowan.github.io/talks/2018-03_enar.html">“Exploring finite-sample bias in propensity score weights.”</a>
