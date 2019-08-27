@@ -263,6 +263,7 @@ writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
 
 bibtex::read.bib("lucy.bib") %>%
   capture.output() %>%
+  stringr::str_replace_all("’", "'") %>%
   stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
   stringr::str_replace_all("“", "``") %>%
   ifelse(. == "", "\n\n 1.", .) %>%
