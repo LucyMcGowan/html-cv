@@ -154,6 +154,20 @@ data %>%
   glue::glue_data("* {what}")
 ```
 
+## Funding
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "funding") %>%
+  mutate(
+    where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
+    what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
+  ) %>%
+  glue::glue_data("<when> \\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
+                  "\n\n\n\\vspace{0.25cm}",
+                  .open = "<", .close = ">")
+```
+
 ## Teaching Experience
 
 ### Vanderbilt University
