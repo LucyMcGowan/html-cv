@@ -36,13 +36,15 @@ header-includes:
 <!-- ## Interests -->
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library("googlesheets")
+googlesheets4::sheets_auth(email = "lucydagostino@gmail.com")
+library("googlesheets4")
 library("dplyr")
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-data <- gs_url("https://docs.google.com/spreadsheets/d/1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU/edit#gid=0", lookup = TRUE, verbose = FALSE) %>%
-  gs_read(verbose = FALSE) %>%
+data <- read_sheet("1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU",
+                   col_types = "ccc") %>%
   arrange(label, desc(when))
 ```
 
@@ -127,11 +129,39 @@ data %>%
 data %>%
   filter(label == "outreach") %>%
   select(when, what) %>%
+ mutate(
+    link = case_when(
+      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
+      TRUE ~ ""
+    ),
+    title = case_when(
+      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
+      TRUE ~ ""
+    ),
+    what = case_when(
+      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
+                                      "{<title>}",
+                                      .open = "<", .close = ">" ),
+      TRUE ~ what
+    )
+  ) %>%
   glue::glue_data("<when> \\tab{<what>} \n\n\n",
                   .open = "<", .close = ">")
 ```
 
 ## Professional Activities
+
+### Internal Service
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "wfu_service") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
 
 ### Professional Service  
 
@@ -170,6 +200,14 @@ data %>%
 
 ## Teaching Experience
 
+### Wake Forest University
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_wfu") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
 ### Vanderbilt University
 
 ```{r, echo = FALSE, results = "asis"}
@@ -197,8 +235,7 @@ data %>%
 ## Invited Presentations
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
-  gs_read(verbose = FALSE) %>%
+presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
   arrange(invited, desc(when))
 ```
 
@@ -225,8 +262,7 @@ presentations %>%
 ## Software
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-pubs <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
-  gs_read(verbose = FALSE) %>%
+pubs <- read_sheet("1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU", col_types = "c") %>%
   arrange(type, desc(year))
 ```
 
@@ -269,7 +305,7 @@ software %>%
 ```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
 options(width = 500)
 papers <- pubs %>%
-  filter(type == "article")
+  filter(type == "article", pub_type != 7)
 
 writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
            con = "lucy.bib"
