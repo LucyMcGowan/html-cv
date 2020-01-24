@@ -62,13 +62,13 @@ communication skills
 <h2 id="interests"> <span style='color:#26D1EA'>Int</span>erests </h2>
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library("googlesheets")
+library("googlesheets4")
 library("dplyr")
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-data <- gs_url("https://docs.google.com/spreadsheets/d/1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU/edit#gid=0", lookup = TRUE, verbose = FALSE) %>%
-  gs_read(verbose = FALSE) %>%
+data <- read_sheet("1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU",
+                   col_types = "ccc") %>%
   arrange(label, desc(when))
 ```
 
@@ -161,6 +161,14 @@ data %>%
 
 ### University Courses
 
+#### Wake Forest University
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_wfu") %>%
+  glue::glue_data("* {what} ({when}) <br>")
+```
+
 #### Vanderbilt University
 
 ```{r, echo = FALSE, results = "asis"}
@@ -188,8 +196,7 @@ data %>%
 <h2 id="invited"> <span style='color:#FDA333'>Inv</span>ited Presentations</h2>
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-presentations <- gs_url("https://docs.google.com/spreadsheets/d/1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA/edit#gid=0", verbose = FALSE) %>%
-  gs_read(verbose = FALSE) %>%
+presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
   arrange(invited, desc(when))
 ```
 
@@ -212,8 +219,7 @@ glue::glue_data(contrib, "<span class='right' style='color:gray'> {what} </span>
 <h2 id="software"><span style='color:#FB4485'>Sof</span>tware</h2>
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-pubs <- gs_url("https://docs.google.com/spreadsheets/d/1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU/edit#gid=0", verbose = FALSE) %>%
-  gs_read(verbose = FALSE) %>%
+pubs <- read_sheet("1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU", col_types = "c") %>%
   arrange(type, desc(year))
 ```
 
