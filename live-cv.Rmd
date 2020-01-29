@@ -62,6 +62,7 @@ communication skills
 <h2 id="interests"> <span style='color:#26D1EA'>Int</span>erests </h2>
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
+googlesheets4::sheets_auth(email = "lucydagostino@gmail.com")
 library("googlesheets4")
 library("dplyr")
 ```
