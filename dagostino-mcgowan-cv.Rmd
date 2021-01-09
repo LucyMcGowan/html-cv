@@ -31,8 +31,9 @@ header-includes:
 \faGithub \hspace{0.1cm} \href{http://github.com/LucyMcGowan}{LucyMcGowan} \hspace{0.1cm}\faTwitter \hspace{0.1cm}  \href{http://twitter.com/LucyStats}{LucyStats} \hspace{0.1cm} \aiOrcid \hspace{0.1cm}  \href{http://orcid.org/0000-0001-7297-9359}{0000-0001-7297-9359}
 \end{center}
 
-**defining attributes**
-*goal-driven leadership, advanced analytic skills, strategic thinking, resourceful team player, sunny disposition, public speaking, organizational & communication skills*
+<!-- **defining attributes** -->
+<!-- *goal-driven leadership, advanced analytic skills, strategic thinking, resourceful team player, sunny disposition, public speaking, organizational & communication skills* -->
+
 <!-- ## Interests -->
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -181,7 +182,9 @@ data %>%
 ```{r, echo = FALSE, results = "asis"}
 data %>%
   filter(label == "referee") %>%
-  glue::glue_data("* {what}")
+  mutate(what = glue::glue("*{what}*")) %>%
+  pull(what) %>%
+  glue::glue_collapse(", ", last = " and ")
 ```
 
 ## Funding
@@ -232,6 +235,24 @@ data %>%
   glue::glue_data("* {what} ({when})  ")
 ```
 
+## Student Engagement
+
+### Undergraduate Theses
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "undergrad_thesis") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+### Independent Studies
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "undergrad_ind_study") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
 ## Invited Presentations
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -241,7 +262,18 @@ presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
 
 ```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
 presentations %>%
-  filter(invited == 1) %>%
+  filter(invited == 1 & !(what %in% c("Workshop", "Panel"))) %>%
+  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
+                  "\\href{<link>}{``<title>.\"}\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+## Workshops and Panels
+
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
+presentations %>%
+  filter(what %in% c("Workshop", "Panel")) %>%
   glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
                   "\\begin{quote}<gsub('\\\\*', '', who)>, ",
                   "\\href{<link>}{``<title>.\"}\\end{quote}",
@@ -252,7 +284,7 @@ presentations %>%
 
 ```{r, results = "asis", echo = FALSE}
 presentations %>%
-  filter(invited == 0) %>% 
+  filter(invited == 0 & !(what %in% c("Workshop", "Panel"))) %>% 
   glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.5cm}",
                   "\\begin{quote}<gsub('\\\\*', '', who)>, ",
                   "\\href{<link>}{``<title>.\"}\\end{quote}",
@@ -301,11 +333,14 @@ software %>%
 
 ## Publications
 
+^Indicates equal contributions
+
 
 ```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
 options(width = 500)
 papers <- pubs %>%
-  filter(type == "article", pub_type != 7)
+  filter(type == "article", pub_type != 7) %>%
+  arrange(desc(date))
 
 writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
            con = "lucy.bib"
