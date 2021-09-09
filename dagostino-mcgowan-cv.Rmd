@@ -37,7 +37,7 @@ header-includes:
 <!-- ## Interests -->
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-googlesheets4::sheets_auth(email = "lucydagostino@gmail.com")
+googlesheets4::gs4_auth(email = "lucydagostino@gmail.com")
 library("googlesheets4")
 library("dplyr")
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
@@ -55,24 +55,7 @@ data <- read_sheet("1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU",
 <!--   select(what) -->
 <!-- cat(paste(interests$what, collapse = ", ")) -->
 <!-- ``` -->
-
-## Education
-
-**PhD** in Biostatistics, May 2018, GPA 3.95 \fn{Vanderbilt University}  
-*Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*  
-
-\vspace{0.25cm}
-
-**MS** in Biostatistics, December 2013, GPA 3.88 \fn{Washington University School of Medicine}   
-*Thesis: Quantitative Assessment of the Community Research Fellows Training Program*  
-
-\vspace{0.25cm}
-
-**BA** with Distinction and Highest Honors\fn{University of North Carolina at Chapel Hill}  
-Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
-
-
-## Research Experience
+## Employment
 
 \TabPositions{4cm}
 
@@ -90,104 +73,26 @@ data %>%
                   .open = "<", .close = ">")
 ```
 
-## Computing
+## Education
 
-**Expert:** R, Shiny, Git/GitHub, \LaTeX, HTML/CSS, SAS  
+**PhD** in Biostatistics, May 2018, GPA 3.95 \fn{Vanderbilt University}  
+*Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*  
 
-**Familiar:** Python, Stata, ArcGIS
+\vspace{0.25cm}
 
-## Awards
+**MS** in Biostatistics, December 2013, GPA 3.88 \fn{Washington University School of Medicine}   
+*Thesis: Quantitative Assessment of the Community Research Fellows Training Program*  
 
-\TabPositions{2cm}
+\vspace{0.25cm}
 
-```{r, echo = FALSE, results = "asis"}
-data %>%
-  filter(label == "awards") %>%
-  select(when, what) %>%
-  mutate(
-    link = case_when(
-      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
-      TRUE ~ ""
-    ),
-    title = case_when(
-      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
-      TRUE ~ ""
-    ),
-    what = case_when(
-      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
-                                      "{<title>}",
-                                      .open = "<", .close = ">" ),
-      TRUE ~ what
-    )
-  ) %>%
-  glue::glue_data("<when> \\tab{<what>} \n\n\n",
-                  .open = "<", .close = ">")
-```
-
-## Outreach
-
-```{r, echo = FALSE, results = "asis"}
-data %>%
-  filter(label == "outreach") %>%
-  select(when, what) %>%
- mutate(
-    link = case_when(
-      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
-      TRUE ~ ""
-    ),
-    title = case_when(
-      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
-      TRUE ~ ""
-    ),
-    what = case_when(
-      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
-                                      "{<title>}",
-                                      .open = "<", .close = ">" ),
-      TRUE ~ what
-    )
-  ) %>%
-  glue::glue_data("<when> \\tab{<what>} \n\n\n",
-                  .open = "<", .close = ">")
-```
-
-## Professional Activities
-
-### Internal Service
-
-```{r, echo = FALSE, results = "asis"}
-data %>%
-  filter(label == "wfu_service") %>%
-  select(when, what) %>%
-  glue::glue_data("<when> \\tab{<what>} \n\n\n",
-                  .open = "<", .close = ">")
-
-```
+**BA** with Distinction and Highest Honors\fn{University of North Carolina at Chapel Hill}  
+Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
 
 
-### Professional Service  
-
-
-```{r, echo = FALSE, results = "asis"}
-data %>%
-  filter(label == "professional_service") %>%
-  select(when, what) %>%
-  glue::glue_data("<when> \\tab{<what>} \n\n\n",
-                  .open = "<", .close = ">")
-
-```
-
-
-### Referee
-
-```{r, echo = FALSE, results = "asis"}
-data %>%
-  filter(label == "referee") %>%
-  mutate(what = glue::glue("*{what}*")) %>%
-  pull(what) %>%
-  glue::glue_collapse(", ", last = " and ")
-```
 
 ## Funding
+
+\TabPositions{1.25cm}
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -196,9 +101,124 @@ data %>%
     where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
     what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
   ) %>%
-  glue::glue_data("<when> \\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
+  glue::glue_data("<when>\\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
                   "\n\n\n\\vspace{0.25cm}",
                   .open = "<", .close = ">")
+```
+
+\TabPositions{4cm}
+
+
+## Invited Presentations
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
+  arrange(invited, desc(when))
+```
+
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
+presentations %>%
+  filter(invited == 1 & !(what %in% c("Workshop", "Panel"))) %>%
+  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
+                  "\\href{<link>}{``<title>.\"}\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+## Workshops and Panels
+
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
+presentations %>%
+  filter(what %in% c("Workshop", "Panel")) %>%
+  arrange(desc(when)) %>%
+  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
+                  "\\href{<link>}{``<title>.\"}\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+## Contributed Presentations
+
+```{r, results = "asis", echo = FALSE}
+presentations %>%
+  filter(invited == 0 & !(what %in% c("Workshop", "Panel"))) %>% 
+  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.5cm}",
+                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
+                  "\\href{<link>}{``<title>.\"}\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+
+## Publications
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+pubs <- read_sheet("1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU", col_types = "c") %>%
+  arrange(type, desc(year))
+```
+
+^Indicates equal contributions
+
+
+```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
+options(width = 500)
+papers <- pubs %>%
+  filter(type == "article", pub_type != 7) %>%
+  arrange(desc(date))
+
+writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
+           con = "lucy.bib"
+)
+
+bibtex::read.bib("lucy.bib") %>%
+  capture.output() %>%
+  stringr::str_replace_all("’", "'") %>%
+  stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
+  stringr::str_replace_all("“", "``") %>%
+  ifelse(. == "", "\n\n 1.", .) %>%
+  unlist() %>%
+  c("1.", .) %>%
+  cat()
+```
+
+## Computing
+
+**Expert:** R, Shiny, Git/GitHub, \LaTeX, HTML/CSS, SAS  
+
+**Familiar:** Python, Stata, ArcGIS
+
+## Software
+
+```{r, echo = FALSE}
+software <- pubs %>%
+  filter(type == "software")
+
+software_cite <- function(x) {
+  glue::glue_data(x, "[**{title}**]({link}): {description} \n\n\n")
+}
+```
+
+### Author & Maintainer
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "maintainer") %>%
+  software_cite()
+```
+
+### Author
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "author") %>%
+  software_cite()
+```
+
+### Contributer
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "contributer") %>%
+  software_cite()
 ```
 
 ## Teaching Experience
@@ -253,115 +273,106 @@ data %>%
   glue::glue_data("* {what} ({when})")
 ```
 
-## Invited Presentations
+## Professional Activities
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
-  arrange(invited, desc(when))
+### Internal Service
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "wfu_service") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
 ```
 
-```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
-presentations %>%
-  filter(invited == 1 & !(what %in% c("Workshop", "Panel"))) %>%
-  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
-                  "\\href{<link>}{``<title>.\"}\\end{quote}",
+
+### Professional Service  
+
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "professional_service") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+
+### Referee
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "referee") %>%
+  mutate(what = glue::glue("*{what}*")) %>%
+  pull(what) %>%
+  glue::glue_collapse(", ", last = " and ")
+```
+
+## Outreach
+
+\TabPositions{2cm}
+
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "outreach") %>%
+  select(when, what) %>%
+ mutate(
+    link = case_when(
+      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
+      TRUE ~ ""
+    ),
+    title = case_when(
+      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
+      TRUE ~ ""
+    ),
+    what = case_when(
+      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
+                                      "{<title>}",
+                                      .open = "<", .close = ">" ),
+      TRUE ~ what
+    )
+  ) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
                   .open = "<", .close = ">")
 ```
 
-## Workshops and Panels
+## Awards
 
-```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
-presentations %>%
-  filter(what %in% c("Workshop", "Panel")) %>%
-  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
-                  "\\href{<link>}{``<title>.\"}\\end{quote}",
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "awards") %>%
+  select(when, what) %>%
+  mutate(
+    link = case_when(
+      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
+      TRUE ~ ""
+    ),
+    title = case_when(
+      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
+      TRUE ~ ""
+    ),
+    what = case_when(
+      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
+                                      "{<title>}",
+                                      .open = "<", .close = ">" ),
+      TRUE ~ what
+    )
+  ) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
                   .open = "<", .close = ">")
 ```
 
-## Contributed Presentations
-
-```{r, results = "asis", echo = FALSE}
-presentations %>%
-  filter(invited == 0 & !(what %in% c("Workshop", "Panel"))) %>% 
-  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.5cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
-                  "\\href{<link>}{``<title>.\"}\\end{quote}",
-                  .open = "<", .close = ">")
-```
-
-## Software
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-pubs <- read_sheet("1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU", col_types = "c") %>%
-  arrange(type, desc(year))
-```
-
-```{r, echo = FALSE}
-software <- pubs %>%
-  filter(type == "software")
-
-software_cite <- function(x) {
-  glue::glue_data(x, "[**{title}**]({link}): {description} \n\n\n")
-}
-```
-
-### Author & Maintainer
-
-```{r, results = "asis", echo = FALSE}
-software %>%
-  filter(authors == "maintainer") %>%
-  software_cite()
-```
-
-### Author
-
-```{r, results = "asis", echo = FALSE}
-software %>%
-  filter(authors == "author") %>%
-  software_cite()
-```
-
-### Contributer
-
-```{r, results = "asis", echo = FALSE}
-software %>%
-  filter(authors == "contributer") %>%
-  software_cite()
-```
-
-## Publications
-
-^Indicates equal contributions
-
-
-```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
-options(width = 500)
-papers <- pubs %>%
-  filter(type == "article", pub_type != 7) %>%
-  arrange(desc(date))
-
-writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
-           con = "lucy.bib"
-)
-
-bibtex::read.bib("lucy.bib") %>%
-  capture.output() %>%
-  stringr::str_replace_all("’", "'") %>%
-  stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
-  stringr::str_replace_all("“", "``") %>%
-  ifelse(. == "", "\n\n 1.", .) %>%
-  unlist() %>%
-  c("1.", .) %>%
-  cat()
-```
 
 ## Press
 
 ```{r, echo = FALSE, results = "asis"}
 pubs %>%
   filter(type == "press") %>%
+  arrange(desc(year)) %>%
   glue::glue_data("**<title>** (<year>) \\textit{<publication>}. ",
                   "Available at: ",
                   "\\url{<link>}\n\n\\vspace{0.5cm}", 
