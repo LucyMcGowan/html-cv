@@ -75,34 +75,31 @@ data %>%
 
 ## Education
 
-**PhD** in Biostatistics, May 2018, GPA 3.95 \fn{Vanderbilt University}  
+**PhD** in Biostatistics, May 2018 \fn{Vanderbilt University}  
 *Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*  
 
 \vspace{0.25cm}
 
-**MS** in Biostatistics, December 2013, GPA 3.88 \fn{Washington University School of Medicine}   
+**MS** in Biostatistics, December 2013 \fn{Washington University School of Medicine}   
 *Thesis: Quantitative Assessment of the Community Research Fellows Training Program*  
 
 \vspace{0.25cm}
 
-**BA** with Distinction and Highest Honors\fn{University of North Carolina at Chapel Hill}  
-Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
+**BA** in Religious Studies and Romance Languages\fn{University of North Carolina at Chapel Hill}  
+*with Distinction and Highest Honors*
 
 
 
-## Funding
+
+## Grants
 
 \TabPositions{1.25cm}
 
 ```{r, echo = FALSE, results = "asis"}
-data %>%
-  filter(label == "funding") %>%
-  mutate(
-    where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
-    what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
-  ) %>%
-  glue::glue_data("<when>\\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
-                  "\n\n\n\\vspace{0.25cm}",
+funding <- read_sheet("1p0SFLMgcfxW4EqPNYCAlkgZzh872ZfOkPK8IPZBVK9Q") %>%
+  arrange(when)
+funding %>%
+  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} <ifelse(!is.na(amount), glue::glue('\\\\newline {amount}'), '')> \\newline Role: <role> \\newline<when>\\end{quote}",
                   .open = "<", .close = ">")
 ```
 
@@ -252,7 +249,7 @@ data %>%
 ```{r, echo = FALSE, results = "asis"}
 data %>%
   filter(label == "teaching_online") %>%
-  glue::glue_data("* {what} ({when})  ")
+  glue::glue_data("* {what} ({when})")
 ```
 
 ## Student Engagement
@@ -274,6 +271,8 @@ data %>%
 ```
 
 ## Professional Activities
+
+\TabPositions{2cm}
 
 ### Internal Service
 
@@ -311,8 +310,6 @@ data %>%
 ```
 
 ## Outreach
-
-\TabPositions{2cm}
 
 
 ```{r, echo = FALSE, results = "asis"}
