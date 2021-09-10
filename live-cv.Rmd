@@ -9,7 +9,7 @@ output:
 <div class="prettycol">
 <div class="column sidebar">
 **contact**  
-Wake Forest University Manchester Hall
+Wake Forest University Manchester Hall  
 Winston-Salem, NC 27106
 
 **website**  
@@ -82,16 +82,17 @@ cat(paste(interests$what, collapse = ", "))
 
 <h2 id="education"><span style='color:#C2E15F'>Edu</span>cation </h2>
 <span class='right' style='color:gray'>Vanderbilt University</span>
-**PhD** in Biostatistics, May 2018, GPA 3.95 <br>
+**PhD** in Biostatistics, May 2018  <br>
 *Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*
 
 <span class='right' style='color:gray'>Washington University School of Medicine</span>
-**MS** in Biostatistics, December 2013, GPA 3.88   <br>
+**MS** in Biostatistics, December 2013   <br>
 *Thesis: Quantitative Assessment of the Community Research Fellows Training Program*
 
 <span class='right' style='color:gray'> University of North Carolina at Chapel Hill</span>
-**BA** with Distinction and Highest Honors   <br>
-Religious Studies: GPA 3.92 Romance Languages: GPA 3.86
+**BA** in Religious Studies and Romance Languages, May 2012    <br>
+*with Distinction and Highest Honors*
+
 
 
 <h2 id="research"><span style='color:#FDA333'>Res</span>earch Experience </h2>
