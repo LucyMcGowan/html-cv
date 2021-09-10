@@ -9,8 +9,8 @@ output:
 <div class="prettycol">
 <div class="column sidebar">
 **contact**  
-2525 West End 11000
-Nashville, TN 37203
+Wake Forest University Manchester Hall
+Winston-Salem, NC 27106
 
 **website**  
 [lucymcgowan.com](https://www.lucymcgowan.com)
