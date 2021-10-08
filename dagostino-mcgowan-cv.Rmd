@@ -110,7 +110,8 @@ funding %>%
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
-  arrange(invited, desc(when))
+  arrange(invited, desc(when)) %>%
+  mutate(title = gsub("\\&", "\\\\&", title))
 ```
 
 ```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
