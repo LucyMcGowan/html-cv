@@ -3,16 +3,17 @@ output:
   pdf_document:
     latex_engine: xelatex
 fontsize: 12pt
-geometry: margin=0.55in, footskip=0.75cm
+geometry: margin=0.7in, footskip=0.75cm
 subparagraph: yes
 header-includes:
   - \usepackage{titlesec}
   - \usepackage{calligra}
   - \usepackage{tabto}
   - \usepackage{xcolor}
-  - \usepackage{fontawesome}
+  - \usepackage{fontawesome5}
   - \usepackage{academicons}
   - \usepackage{fancyhdr}
+  - \usepackage{fontspec}
   - \definecolor{lightgray}{HTML}{999999}
   - \pagestyle{fancy}
   - \fancyhf{}
@@ -90,19 +91,6 @@ data %>%
 
 
 
-
-## Grants
-
-\TabPositions{1.25cm}
-
-```{r, echo = FALSE, results = "asis"}
-funding <- read_sheet("1p0SFLMgcfxW4EqPNYCAlkgZzh872ZfOkPK8IPZBVK9Q") %>%
-  arrange(when)
-funding %>%
-  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} <ifelse(!is.na(amount), glue::glue('\\\\newline {amount}'), '')> \\newline Role: <role> \\newline<when>\\end{quote}",
-                  .open = "<", .close = ">")
-```
-
 \TabPositions{4cm}
 
 
@@ -154,7 +142,7 @@ pubs <- read_sheet("1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU", col_types = "
   arrange(type, desc(year))
 ```
 
-^Indicates equal contributions
++Indicates equal contributions
 
 
 ```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
@@ -364,6 +352,17 @@ data %>%
                   .open = "<", .close = ">")
 ```
 
+## Grants
+
+\TabPositions{1.25cm}
+
+```{r, echo = FALSE, results = "asis"}
+funding <- read_sheet("1p0SFLMgcfxW4EqPNYCAlkgZzh872ZfOkPK8IPZBVK9Q") %>%
+  arrange(when)
+funding %>%
+  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} <ifelse(!is.na(amount), glue::glue('\\\\newline {amount}'), '')> \\newline Role: <role> \\newline<when>\\end{quote}",
+                  .open = "<", .close = ">")
+```
 
 ## Press
 
