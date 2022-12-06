@@ -63,6 +63,17 @@ data <- read_sheet("1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU",
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
+  filter(label == "primary_research") %>%
+  select(when, what) %>%
+  mutate(
+    where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
+    what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
+  ) %>%
+  glue::glue_data("<when> \\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
+                  "\n\n\n\\vspace{0.25cm}",
+                  .open = "<", .close = ">")
+
+data %>%
   filter(label == "research") %>%
   select(when, what) %>%
   mutate(
@@ -111,7 +122,7 @@ presentations %>%
                   .open = "<", .close = ">")
 ```
 
-## Workshops and Panels
+## Invited Workshops and Panels
 
 ```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
 presentations %>%
@@ -256,6 +267,7 @@ data %>%
 ```{r, echo = FALSE, results = "asis"}
 data %>%
   filter(label == "undergrad_ind_study") %>%
+  arrange(desc(when)) %>%
   glue::glue_data("* {what} ({when})")
 ```
 
@@ -360,7 +372,26 @@ data %>%
 funding <- read_sheet("1p0SFLMgcfxW4EqPNYCAlkgZzh872ZfOkPK8IPZBVK9Q") %>%
   arrange(when)
 funding %>%
+  filter(funded == "yes") %>%
   glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} <ifelse(!is.na(amount), glue::glue('\\\\newline {amount}'), '')> \\newline Role: <role> \\newline<when>\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+## Grants (under review)
+
+```{r, echo = FALSE, results = "asis"}
+funding %>%
+  filter(funded == "submitted") %>%
+  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
+                  .open = "<", .close = ">")
+```
+
+## Grants (unfunded)
+
+```{r, echo = FALSE, results = "asis"}
+funding %>%
+  filter(funded == "no") %>%
+  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
                   .open = "<", .close = ">")
 ```
 
@@ -370,7 +401,7 @@ funding %>%
 pubs %>%
   filter(type == "press") %>%
   arrange(desc(year)) %>%
-  glue::glue_data("**<title>** (<year>) \\textit{<publication>}. ",
+  glue::glue_data("**<title>** (<year>) \\textit{<publication>}. (<description>). ",
                   "Available at: ",
                   "\\url{<link>}\n\n\\vspace{0.5cm}", 
                   .open = "<", .close = ">")
