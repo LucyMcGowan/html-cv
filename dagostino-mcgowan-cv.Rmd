@@ -310,6 +310,16 @@ data %>%
   glue::glue_collapse(", ", last = " and ")
 ```
 
+### Chaired Conference Sessions
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "chair") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+```
+
 ## Outreach
 
 
