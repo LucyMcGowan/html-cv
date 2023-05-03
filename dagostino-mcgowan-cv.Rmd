@@ -14,6 +14,7 @@ header-includes:
   - \usepackage{academicons}
   - \usepackage{fancyhdr}
   - \usepackage{fontspec}
+  - \usepackage{needspace}
   - \definecolor{lightgray}{HTML}{999999}
   - \pagestyle{fancy}
   - \fancyhf{}
@@ -23,6 +24,10 @@ header-includes:
   - '\titleformat{\subsection}{\centering\Large\scshape}{\thesubsection}{1em}{}'
   - '\newcommand{\fn}[1]{\hfill \textsc{\small{\color{lightgray} #1}}}'
 ---
+
+```{r, echo = FALSE}
+unfunded <- 0
+```
 
 \begin{center}
 {\Huge {\calligra Lucy}}\hspace{0.1cm}{\Large \textbf{D'Agostino McGowan}}
@@ -116,10 +121,11 @@ presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
 ```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
 presentations %>%
   filter(invited == 1 & !(what %in% c("Workshop", "Panel"))) %>%
-  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
-                  "\\href{<link>}{``<title>.\"}\\end{quote}",
-                  .open = "<", .close = ">")
+  glue::glue_data("\\par
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+"\\begin{quote}<gsub('\\\\*', '', who)>, ",
+"\\href{<link>}{``<title>.\"}\\end{quote}",
+.open = "<", .close = ">")
 ```
 
 ## Invited Workshops and Panels
@@ -128,10 +134,11 @@ presentations %>%
 presentations %>%
   filter(what %in% c("Workshop", "Panel")) %>%
   arrange(desc(when)) %>%
-  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.65cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
-                  "\\href{<link>}{``<title>.\"}\\end{quote}",
-                  .open = "<", .close = ">")
+  glue::glue_data("\\par
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+"\\begin{quote}<gsub('\\\\*', '', who)>, ",
+"\\href{<link>}{``<title>.\"}\\end{quote}",
+.open = "<", .close = ">")
 ```
 
 ## Contributed Presentations
@@ -139,10 +146,11 @@ presentations %>%
 ```{r, results = "asis", echo = FALSE}
 presentations %>%
   filter(invited == 0 & !(what %in% c("Workshop", "Panel"))) %>% 
-  glue::glue_data("**<where>** \\fn{<what>} \\vspace{-0.5cm}",
-                  "\\begin{quote}<gsub('\\\\*', '', who)>, ",
-                  "\\href{<link>}{``<title>.\"}\\end{quote}",
-                  .open = "<", .close = ">")
+  glue::glue_data("\\par
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>} \\vspace{-0.5cm}",
+"\\begin{quote}<gsub('\\\\*', '', who)>, ",
+"\\href{<link>}{``<title>.\"}\\end{quote}",
+.open = "<", .close = ">")
 ```
 
 
@@ -167,6 +175,29 @@ writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
 )
 
 bibtex::read.bib("lucy.bib") %>%
+  capture.output() %>%
+  stringr::str_replace_all("’", "'") %>%
+  stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
+  stringr::str_replace_all("“", "``") %>%
+  ifelse(. == "", "\n\n 1.", .) %>%
+  unlist() %>%
+  c("1.", .) %>%
+  cat()
+```
+
+## Pre-prints
+
+```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
+options(width = 500)
+papers <- pubs %>%
+  filter(type == "preprint") %>%
+  arrange(desc(date))
+
+writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
+           con = "lucy-preprint.bib"
+)
+
+bibtex::read.bib("lucy-preprint.bib") %>%
   capture.output() %>%
   stringr::str_replace_all("’", "'") %>%
   stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
@@ -327,7 +358,7 @@ data %>%
 data %>%
   filter(label == "outreach") %>%
   select(when, what) %>%
- mutate(
+  mutate(
     link = case_when(
       grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
       TRUE ~ ""
@@ -387,22 +418,35 @@ funding %>%
                   .open = "<", .close = ">")
 ```
 
-## Grants (under review)
-
 ```{r, echo = FALSE, results = "asis"}
-funding %>%
-  filter(funded == "submitted") %>%
-  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
-                  .open = "<", .close = ">")
+if (unfunded) {
+  glue::glue("## Grants (under review)")
+}
 ```
 
-## Grants (unfunded)
 
 ```{r, echo = FALSE, results = "asis"}
-funding %>%
-  filter(funded == "no") %>%
-  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
-                  .open = "<", .close = ">")
+if (unfunded) {
+  funding %>%
+    filter(funded == "submitted") %>%
+    glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
+                    .open = "<", .close = ">")
+}
+```
+
+```{r, echo = FALSE, results = "asis"}
+if (unfunded) {
+  glue::glue("## Grants (unfunded)")
+}
+```
+
+```{r, echo = FALSE, results = "asis"}
+if (unfunded) {
+  funding %>%
+    filter(funded == "no") %>%
+    glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
+                    .open = "<", .close = ">")
+}
 ```
 
 ## Press
