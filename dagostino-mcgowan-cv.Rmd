@@ -22,7 +22,9 @@ header-includes:
   - \fancyfoot[C]{\thepage}
   - '\fancyfoot[R]{\footnotesize \color{lightgray} \textsc{Updated \today}}'
   - '\titleformat{\subsection}{\centering\Large\scshape}{\thesubsection}{1em}{}'
+  - '\titleformat{\subsubsection}{\large\scshape}{\thesubsubsection}{1em}{}'
   - '\newcommand{\fn}[1]{\hfill \textsc{\small{\color{lightgray} #1}}}'
+  - '\newcommand{\tabbedparagraph}[2]{\noindent#1\hspace{10pt}\begin{minipage}[t]{\dimexpr\linewidth-55pt}#2\end{minipage}\\[1em]}'
 ---
 
 ```{r, echo = FALSE}
@@ -43,7 +45,7 @@ unfunded <- 0
 <!-- ## Interests -->
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-googlesheets4::gs4_auth(email = "lucydagostino@gmail.com")
+googlesheets4::gs4_auth(email = "mcgowald@wfu.edu")
 library("googlesheets4")
 library("dplyr")
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
@@ -85,6 +87,7 @@ data %>%
     where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
     what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
   ) %>%
+  filter(when != "2013 Summer") %>% ## Remove colditz 
   glue::glue_data("<when> \\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
                   "\n\n\n\\vspace{0.25cm}",
                   .open = "<", .close = ">")
@@ -102,7 +105,7 @@ data %>%
 
 \vspace{0.25cm}
 
-**BA** in Religious Studies and Romance Languages\fn{University of North Carolina at Chapel Hill}  
+**BA** in Religious Studies and Romance Languages, May 2012 \fn{UNC Chapel Hill}  
 *with Distinction and Highest Honors*
 
 
@@ -113,7 +116,8 @@ data %>%
 ## Invited Presentations
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
+presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA",
+                            col_types = "cccccdddccclccccc") %>%
   arrange(invited, desc(when)) %>%
   mutate(title = gsub("\\&", "\\\\&", title))
 ```
@@ -122,7 +126,7 @@ presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA") %>%
 presentations %>%
   filter(invited == 1 & !(what %in% c("Workshop", "Panel"))) %>%
   glue::glue_data("\\par
-\\needspace{4\\baselineskip}**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
 "\\begin{quote}<gsub('\\\\*', '', who)>, ",
 "\\href{<link>}{``<title>.\"}\\end{quote}",
 .open = "<", .close = ">")
@@ -135,7 +139,7 @@ presentations %>%
   filter(what %in% c("Workshop", "Panel")) %>%
   arrange(desc(when)) %>%
   glue::glue_data("\\par
-\\needspace{4\\baselineskip}**<where>** \\fn{<what>} \\vspace{-0.65cm}",
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
 "\\begin{quote}<gsub('\\\\*', '', who)>, ",
 "\\href{<link>}{``<title>.\"}\\end{quote}",
 .open = "<", .close = ">")
@@ -147,7 +151,7 @@ presentations %>%
 presentations %>%
   filter(invited == 0 & !(what %in% c("Workshop", "Panel"))) %>% 
   glue::glue_data("\\par
-\\needspace{4\\baselineskip}**<where>** \\fn{<what>} \\vspace{-0.5cm}",
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
 "\\begin{quote}<gsub('\\\\*', '', who)>, ",
 "\\href{<link>}{``<title>.\"}\\end{quote}",
 .open = "<", .close = ">")
@@ -185,28 +189,28 @@ bibtex::read.bib("lucy.bib") %>%
   cat()
 ```
 
-## Pre-prints
+<!-- ## Pre-prints -->
 
-```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
-options(width = 500)
-papers <- pubs %>%
-  filter(type == "preprint") %>%
-  arrange(desc(date))
+<!-- ```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE} -->
+<!-- options(width = 500) -->
+<!-- papers <- pubs %>% -->
+<!--   filter(type == "preprint") %>% -->
+<!--   arrange(desc(date)) -->
 
-writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
-           con = "lucy-preprint.bib"
-)
+<!-- writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"), -->
+<!--            con = "lucy-preprint.bib" -->
+<!-- ) -->
 
-bibtex::read.bib("lucy-preprint.bib") %>%
-  capture.output() %>%
-  stringr::str_replace_all("’", "'") %>%
-  stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
-  stringr::str_replace_all("“", "``") %>%
-  ifelse(. == "", "\n\n 1.", .) %>%
-  unlist() %>%
-  c("1.", .) %>%
-  cat()
-```
+<!-- bibtex::read.bib("lucy-preprint.bib") %>% -->
+<!--   capture.output() %>% -->
+<!--   stringr::str_replace_all("’", "'") %>% -->
+<!--   stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>% -->
+<!--   stringr::str_replace_all("“", "``") %>% -->
+<!--   ifelse(. == "", "\n\n 1.", .) %>% -->
+<!--   unlist() %>% -->
+<!--   c("1.", .) %>% -->
+<!--   cat() -->
+<!-- ``` -->
 
 ## Computing
 
@@ -308,30 +312,83 @@ data %>%
 
 ### Internal Service
 
+***Department of Statistical Sciences***
+
+
 ```{r, echo = FALSE, results = "asis"}
 data %>%
-  filter(label == "wfu_service") %>%
+  filter(label == "wfu_service_dept") %>%
   select(when, what) %>%
   glue::glue_data("<when> \\tab{<what>} \n\n\n",
                   .open = "<", .close = ">")
 
 ```
 
-
-### Professional Service  
+\needspace{4\baselineskip} ***College-wide***
 
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
+  filter(label == "wfu_service_college") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+### External Professional Service
+
+
+```{r, echo = FALSE, results = "asis"}
+prof_service <- data %>%
   filter(label == "professional_service") %>%
   select(when, what) %>%
+  mutate(asa = grepl(" ASA ", what),
+         editor = grepl("Editor", what),
+         enar = grepl("ENAR", what)
+  )
+
+prof_service %>%
+  filter(!asa, !editor, !enar) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+\needspace{4\baselineskip} ***Service on Editorial Boards***
+
+```{r, echo = FALSE, results = "asis"}
+prof_service %>%
+  filter(editor) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+\needspace{4\baselineskip}***Service for the American Statistical Association***
+
+
+```{r, echo = FALSE, results = "asis"}
+prof_service %>%
+  filter(asa) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+\needspace{4\baselineskip}***Service for the International Biometric Society (ENAR)***
+
+
+```{r, echo = FALSE, results = "asis"}
+prof_service %>%
+  filter(enar) %>%
   glue::glue_data("<when> \\tab{<what>} \n\n\n",
                   .open = "<", .close = ">")
 
 ```
 
 
-### Referee
+\needspace{4\baselineskip}***Referee***
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -341,7 +398,7 @@ data %>%
   glue::glue_collapse(", ", last = " and ")
 ```
 
-### Chaired Conference Sessions
+\needspace{4\baselineskip}***Chaired Conference Sessions***
 
 ```{r, echo = FALSE, results = "asis"}
 data %>%
@@ -405,33 +462,38 @@ data %>%
                   .open = "<", .close = ">")
 ```
 
-## Grants
+## Grant Funding
 
-\TabPositions{1.25cm}
+### Current
 
 ```{r, echo = FALSE, results = "asis"}
 funding <- read_sheet("1p0SFLMgcfxW4EqPNYCAlkgZzh872ZfOkPK8IPZBVK9Q") %>%
-  arrange(when)
+  arrange(-start)
 funding %>%
-  filter(funded == "yes") %>%
-  glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} <ifelse(!is.na(amount), glue::glue('\\\\newline {amount}'), '')> \\newline Role: <role> \\newline<when>\\end{quote}",
+  filter(funded == "yes", current == "yes") %>%
+  glue::glue_data("\\tabbedparagraph{<start><ifelse(!is.na(end), glue::glue('-{end}'), '     ')>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
                   .open = "<", .close = ">")
 ```
 
+### Completed
+
 ```{r, echo = FALSE, results = "asis"}
-if (unfunded) {
-  glue::glue("## Grants (under review)")
-}
+funding %>%
+  filter(funded == "yes", current == "no") %>%
+  glue::glue_data("\\tabbedparagraph{<start><ifelse(!is.na(end), glue::glue('-{end}'), '\\\\hspace{1cm}')>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
+                  .open = "<", .close = ">")
 ```
 
 
+### Pending
+
+
 ```{r, echo = FALSE, results = "asis"}
-if (unfunded) {
-  funding %>%
-    filter(funded == "submitted") %>%
-    glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
-                    .open = "<", .close = ">")
-}
+funding %>%
+ filter(funded == "pending") %>%
+  glue::glue_data("\\tabbedparagraph{<start><ifelse(!is.na(end), glue::glue('-{end}'), '\\\\hspace{1cm}')>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
+                  .open = "<", .close = ">")
+
 ```
 
 ```{r, echo = FALSE, results = "asis"}
@@ -444,7 +506,7 @@ if (unfunded) {
 if (unfunded) {
   funding %>%
     filter(funded == "no") %>%
-    glue::glue_data("\\textbf{<what>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<when>\\end{quote}",
+    glue::glue_data("\\textbf{<start>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<what>\\end{quote}",
                     .open = "<", .close = ">")
 }
 ```
