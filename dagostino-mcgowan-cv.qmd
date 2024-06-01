@@ -1,0 +1,653 @@
+---
+format: 
+  pdf:
+    block-headings: false
+    latex_engine: xelatex
+    geometry:
+      - margin=0.75in
+fontsize: 10pt
+linkcolor: black
+urlcolor: black
+header-includes:
+  - \usepackage{titlesec}
+  - \usepackage{calligra}
+  - \usepackage{tabto}
+  - \usepackage{xcolor}
+  - \usepackage{fontawesome5}
+  - \usepackage{academicons}
+  - \usepackage{fancyhdr}
+  - \usepackage{fontspec}
+  - \usepackage{needspace}
+  - \definecolor{lightgray}{rgb}{0.52, 0.52, 0.51}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \renewcommand{\headrulewidth}{0pt}
+  - \fancyfoot[C]{\thepage}
+  - '\fancyfoot[R]{\footnotesize \color{lightgray} \textsc{Updated \today}}'
+  - '\titleformat{\section}{\centering\huge\scshape}{\thesection}{1em}{}'
+  - '\titleformat{\subsection}{\centering\Large\scshape}{\thesubsection}{1em}{}'
+  - '\titleformat{\subsubsection}{\large\scshape}{\thesubsubsection}{1em}{}'
+  - '\newcommand{\fn}[1]{\hfill \textsc{\small{\color{lightgray} #1}}}'
+  - '\newcommand{\tabbedparagraph}[2]{\noindent#1\hspace{10pt}\begin{minipage}[t]{\dimexpr\linewidth-55pt}#2\end{minipage}\\[1em]}'
+---
+
+```{r, echo = FALSE}
+unfunded <- 0
+```
+
+# Curriculum Vitae
+\vspace{-0.8cm}
+\begin{center}
+{\Huge {\calligra Lucy}}\hspace{0.2cm}{\Large \textbf{D'Agostino McGowan, Ph.D.}}
+\end{center}
+
+\vspace{-0.5cm}
+
+## Professional Data
+
+::: {layout="[0.6, 0.02, 0.38]"}
+::: {#first}
+***Primary Appointment***  
+Department of Statistical Sciences  
+Wake Forest University  
+
+\
+\
+***Secondary Appointment***  
+Department of Biostatistics and Data Science  
+Division of Public Health Sciences  
+Wake Forest University School of Medicine
+:::
+
+::: {#mid}
+  
+:::
+
+::: {#second}
+
+\vspace{-1.75cm}
+
+\faGithub \hspace{0.1cm} \href{http://github.com/LucyMcGowan}{LucyMcGowan}  
+\faTwitter \hspace{0.1cm}  \href{http://twitter.com/LucyStats}{LucyStats}  
+\aiOrcid \hspace{0.1cm}  \href{http://orcid.org/0000-0001-7297-9359}{0000-0001-7297-9359}  
+\href{https://www.lucymcgowan.com}{www.lucymcgowan.com}  
+
+:::
+
+:::
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+googlesheets4::gs4_auth(email = "mcgowald@wfu.edu")
+library("googlesheets4")
+library("dplyr")
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+data <- read_sheet("1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU",
+                   col_types = "ccc") %>%
+  arrange(label, desc(when))
+```
+
+
+\vspace{-0.25cm}
+
+## Education and Training
+
+\TabPositions{4cm}
+
+\vspace{-.5cm}
+
+### Degrees
+
+\vspace{-.4cm}
+
+**Ph.D.** in Biostatistics, May 2018 \fn{Vanderbilt University}  
+*Thesis: Improving Modern Techniques of Causal Inference: Finite Sample Performance of ATM and ATO Doubly Robust Estimators, Variance Estimation for ATO Estimators, and Contextualized Tipping Point Sensitivity Analyses for Unmeasured Confounding*  
+
+\vspace{0.1cm}
+
+**M.S.** in Biostatistics, December 2013 \fn{Washington University in St. Louis School of Medicine}   
+*Thesis: Quantitative Assessment of the Community Research Fellows Training Program*  
+
+\vspace{0.1cm}
+
+**B.A.** in Religious Studies and Romance Languages, May 2012 \fn{UNC Chapel Hill}  
+*with Distinction and Highest Honors*
+
+\vspace{-.5cm}
+
+### Postdoctoral Training
+
+\vspace{-.4cm}
+
+
+**Postdoctoral Fellow**, 2018-2019 \fn{Johns Hopkins Bloomberg School of Public Health}  
+Department of Biostatistics  
+*Mentor: Jeffrey Leek, Ph.D.*
+
+
+\vspace{-0.25cm}
+
+## Professional Experience
+
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "primary_research") %>%
+  select(when, what) %>%
+  mutate(
+    where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
+    what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
+  ) %>%
+  glue::glue_data("<when> \\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
+                  "\n\\vspace{-0.1cm}",
+                  .open = "<", .close = ">")
+
+data %>%
+  filter(label == "research", !when == "2018-2019") %>%
+  select(when, what) %>%
+  mutate(
+    where = purrr::map_chr(strsplit(what, "\\*\\*"), 2),
+    what = stringr::str_match(what, "([^\\*]+)(?:\\*[^\\*]+){1}$")[, 2]
+  ) %>%
+  filter(when != "2013 Summer") %>% ## Remove colditz 
+  glue::glue_data("<when> \\tab{\\textbf{<where>}}\n\n\\vspace{-0.25cm} \\tab{\\textit{<what>}}",
+                  "\n\\vspace{-.1cm}",
+                  .open = "<", .close = ">")
+```
+
+\TabPositions{4cm}
+
+## Publications
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+pubs <- read_sheet("1HPQDH3tOXtZb1DV--8wR9CKAzUz5aywWc2vM3OQ5SrU", col_types = "c") %>%
+  arrange(type, desc(year))
+```
+
++Indicates equal contributions.  
+\* Indicates student advisee.
+
+### Journal Articles (Peer-reviewed)
+
+
+```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
+options(width = 500)
+papers <- pubs %>%
+  filter(type == "article", pub_type == 2) %>%
+  arrange(desc(date))
+
+writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"),
+           con = "lucy.bib"
+)
+
+
+format_dois <- function(text) {
+  pattern <- "doi:(10\\.\\d{4,9}/[-._;()/:A-Za-z0-9]+)\\s*<https://doi\\.org/(10\\.\\d{4,9}/[-._;()/:A-Za-z0-9]+)>"
+  replacement <- "[doi:\\1](https://doi.org/\\2)"
+  formatted_text <- stringr::str_replace_all(text, pattern, replacement)
+  return(formatted_text)
+}
+
+bib_content <- bibtex::read.bib("lucy.bib") %>%
+  capture.output() %>%
+  paste(collapse = "\n") %>%  
+  stringr::str_replace_all("’", "'") %>%
+  stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
+  stringr::str_replace_all("Mendoza H", "Mendoza H\\\\*") %>%
+  stringr::str_replace_all("“", "``") %>%
+  format_dois() %>%
+  stringr::str_split("\n") %>%  
+  unlist()
+
+bib_content <- ifelse(bib_content == "", "\n\n 1.", bib_content) %>%
+  unlist() %>%
+  c("1.", .)
+
+cat(bib_content, sep = "\n")
+
+```
+
+### Refereed Commentaries, Editorials, and Other Publications 
+
+```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE}
+other_papers <- pubs %>%
+  filter(type == "article", pub_type == 3) %>%
+  arrange(desc(date))
+
+writeLines(glue::glue_collapse(other_papers$bib, sep = "\n\n"),
+           con = "lucy-other.bib"
+)
+
+bibtex::read.bib("lucy-other.bib") %>%
+  capture.output() %>%
+  paste(collapse = "\n") %>%  
+  stringr::str_replace_all("’", "'") %>% 
+  stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>%
+  stringr::str_replace_all("Mendoza H", "Mendoza H\\\\*") %>%
+  stringr::str_replace_all("“", "``") %>%
+  format_dois() %>%
+  stringr::str_split("\n") %>%  
+  unlist() %>% 
+  ifelse(. == "", "\n\n 1.", .) %>%
+  unlist() %>%
+  c(glue::glue("{nrow(papers) + 1}."), .) %>%
+  cat(sep = "\n")
+```
+
+
+<!-- ## Pre-prints -->
+
+<!-- ```{r, echo = FALSE, results = "asis", message = FALSE, warning = FALSE} -->
+<!-- options(width = 500) -->
+<!-- papers <- pubs %>% -->
+<!--   filter(type == "preprint") %>% -->
+<!--   arrange(desc(date)) -->
+
+<!-- writeLines(glue::glue_collapse(papers$bib, sep = "\n\n"), -->
+<!--            con = "lucy-preprint.bib" -->
+<!-- ) -->
+
+<!-- bibtex::read.bib("lucy-preprint.bib") %>% -->
+<!--   capture.output() %>% -->
+<!--   stringr::str_replace_all("’", "'") %>% -->
+<!--   stringr::str_replace_all("D'Agostino McGowan L", "**D'Agostino McGowan L**") %>% -->
+<!--   stringr::str_replace_all("“", "``") %>% -->
+<!--   ifelse(. == "", "\n\n 1.", .) %>% -->
+<!--   unlist() %>% -->
+<!--   c("1.", .) %>% -->
+<!--   cat() -->
+<!-- ``` -->
+
+
+## Presentations
+
+### \underline{Invited Presentations at Scientific Meetings}
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA",
+                            col_types = "cccccdddccclcccccc") %>%
+  arrange(invited, desc(start)) %>%
+  mutate(title = gsub("\\&", "\\\\&", title))
+```
+
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
+presentations %>%
+  filter(invited == 1 & !(what %in% c("Workshop", "Panel")), type == "conference") %>%
+  glue::glue_data("\\par
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
+"\\begin{quote}<gsub('\\\\*', '', who)>, ",
+"\\href{<ifelse(is.na(link), slides, link)>}{``<title>.\"}\\end{quote}",
+.open = "<", .close = ">")
+```
+
+### \underline{Invited Seminars and Colloquia}
+
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
+presentations %>%
+  filter(invited == 1 & !(what %in% c("Workshop", "Panel")), type == "seminar") %>%
+  glue::glue_data("\\par
+\\needspace{4\\baselineskip}**<where>**",
+"\\begin{quote}\\href{<ifelse(is.na(link), slides, link)>}{``<title>.\"}\\end{quote}",
+.open = "<", .close = ">")
+```
+
+
+### \underline{Invited Workshops and Panels}
+
+```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
+presentations %>%
+  filter(what %in% c("Workshop", "Panel", "Lecture")) %>%
+  arrange(desc(start)) %>%
+  glue::glue_data("\\par
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
+"\\begin{quote}<gsub('\\\\*', '', who)>, ",
+"{``<title>.\"}\\end{quote}",
+.open = "<", .close = ">")
+```
+
+### \underline{Contributed Presentations at Scientific Meetings}
+
+```{r, results = "asis", echo = FALSE}
+presentations %>%
+  filter(invited == 0 & !(what %in% c("Workshop", "Panel"))) %>% 
+  glue::glue_data("\\par
+\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
+"\\begin{quote}<gsub('\\\\*', '', who)>, ",
+"\\href{<link>}{``<title>.\"}\\end{quote}",
+.open = "<", .close = ">")
+```
+
+
+## Grant Funding
+
+\vspace{-0.5cm}
+
+### Current
+
+```{r, echo = FALSE, results = "asis"}
+funding <- read_sheet("1p0SFLMgcfxW4EqPNYCAlkgZzh872ZfOkPK8IPZBVK9Q") %>%
+  arrange(-start)
+funding %>%
+  filter(funded == "yes", current == "yes") %>%
+  glue::glue_data("\\tabbedparagraph{<start><ifelse(!is.na(end), glue::glue('-{end}'), '     ')>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
+                  .open = "<", .close = ">")
+```
+
+\vspace{-0.75cm}
+
+### Completed
+
+```{r, echo = FALSE, results = "asis"}
+funding %>%
+  filter(funded == "yes", current == "no") %>%
+  glue::glue_data("\\tabbedparagraph{<start><ifelse(!is.na(end), glue::glue('-{end}'), '\\\\hspace{0.8cm}')>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
+                  .open = "<", .close = ">")
+```
+
+\vspace{-0.75cm}
+
+### Pending
+
+
+```{r, echo = FALSE, results = "asis"}
+funding %>%
+ filter(funded == "pending") %>%
+  glue::glue_data("\\tabbedparagraph{<start><ifelse(!is.na(end), glue::glue('-{end}'), '\\\\hspace{0.8cm}')>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
+                  .open = "<", .close = ">")
+
+```
+
+```{r, echo = FALSE, results = "asis"}
+if (unfunded) {
+  glue::glue("## Grants (unfunded)")
+}
+```
+
+```{r, echo = FALSE, results = "asis"}
+if (unfunded) {
+  funding %>%
+    filter(funded == "no") %>%
+    glue::glue_data("\\textbf{<start>}\\vspace{-0.65cm} \\begin{quote} \\textit{<funder>} \\newline Role: <role> \\newline<what>\\end{quote}",
+                    .open = "<", .close = ">")
+}
+```
+
+\vspace{-0.5cm}
+
+## Software
+
+```{r, echo = FALSE}
+software <- pubs %>%
+  filter(type == "software") %>%
+  arrange(desc(year))
+
+software_cite <- function(x) {
+  glue::glue_data(x, "[**{title}**]({link}): {description} ({year})\n\n\n")
+}
+```
+
+\vspace{-0.5cm}
+
+### Author & Maintainer 
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "maintainer") %>%
+  software_cite()
+```
+
+
+### Author
+
+\* Indicates package is maintained by former student advisee
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "author") %>%
+  software_cite()
+```
+
+### Contributer
+
+```{r, results = "asis", echo = FALSE}
+software %>%
+  filter(authors == "contributer") %>%
+  software_cite()
+```
+
+## Teaching Experience
+
+### Wake Forest University
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_wfu") %>%
+  arrange(desc(when), what) %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+### Vanderbilt University
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_vandy") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+### Washington University in St. Louis
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_wustl") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+### Online Courses
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "teaching_online") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+## Student Engagement
+
+### Undergraduate Theses
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "undergrad_thesis") %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+### Independent Studies
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "undergrad_ind_study") %>%
+  arrange(desc(when)) %>%
+  glue::glue_data("* {what} ({when})")
+```
+
+### Committees
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "committee") %>%
+  mutate(what = glue::glue("{what}")) %>%
+  pull(what) %>%
+  glue::glue_collapse(", ", last = " and ")
+```
+
+
+## Awards
+
+\TabPositions{2cm}
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "awards") %>%
+  select(when, what) %>%
+  mutate(
+    link = case_when(
+      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
+      TRUE ~ ""
+    ),
+    title = case_when(
+      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
+      TRUE ~ ""
+    ),
+    what = case_when(
+      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
+                                      "{<title>}",
+                                      .open = "<", .close = ">" ),
+      TRUE ~ what
+    )
+  ) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+```
+
+
+## Professional Activities
+
+### Internal Service
+
+***Department of Statistical Sciences***
+
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "wfu_service_dept") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+***College-wide***
+
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "wfu_service_college") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+### External Professional Service
+
+
+```{r, echo = FALSE, results = "asis"}
+prof_service <- data %>%
+  filter(label == "professional_service") %>%
+  select(when, what) %>%
+  mutate(asa = grepl(" ASA ", what),
+         editor = grepl("Editor", what),
+         enar = grepl("ENAR", what)
+  )
+
+prof_service %>%
+  filter(!asa, !editor, !enar) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+***Service on Editorial Boards***
+
+```{r, echo = FALSE, results = "asis"}
+prof_service %>%
+  filter(editor) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+***Service for the American Statistical Association***
+
+
+```{r, echo = FALSE, results = "asis"}
+prof_service %>%
+  filter(asa) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+***Service for the International Biometric Society (ENAR)***
+
+
+```{r, echo = FALSE, results = "asis"}
+prof_service %>%
+  filter(enar) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+
+```
+
+
+***Referee***
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "referee") %>%
+  mutate(what = glue::glue("*{what}*")) %>%
+  pull(what) %>%
+  glue::glue_collapse(", ", last = " and ")
+```
+
+***Chaired Conference Sessions***
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "chair") %>%
+  select(when, what) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+```
+
+## Outreach
+
+
+```{r, echo = FALSE, results = "asis"}
+data %>%
+  filter(label == "outreach") %>%
+  select(when, what) %>%
+  mutate(
+    link = case_when(
+      grepl("\\[", what) ~ gsub('\\(|\\)|\\[.*\\]','', what),
+      TRUE ~ ""
+    ),
+    title = case_when(
+      grepl("\\[", what) ~ gsub('\\[|\\]|\\(.*\\)','',what),
+      TRUE ~ ""
+    ),
+    what = case_when(
+      grepl("\\[", what) ~ glue::glue("\\href{<link>}",
+                                      "{<title>}",
+                                      .open = "<", .close = ">" ),
+      TRUE ~ what
+    )
+  ) %>%
+  glue::glue_data("<when> \\tab{<what>} \n\n\n",
+                  .open = "<", .close = ">")
+```
+
+## Press
+
+```{r, echo = FALSE, results = "asis"}
+pubs %>%
+  filter(type == "press") %>%
+  arrange(desc(year)) %>%
+  glue::glue_data("**<title>** (<year>) \\textit{<publication>}. (<description>). ",
+                  "Available at: ",
+                  "\\url{<link>}\n\n\\vspace{0.5cm}", 
+                  .open = "<", .close = ">")
+```
+
