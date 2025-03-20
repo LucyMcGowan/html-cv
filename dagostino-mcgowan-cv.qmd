@@ -18,16 +18,16 @@ header-includes:
   - \usepackage{fancyhdr}
   - \usepackage{fontspec}
   - \usepackage{needspace}
-  - \definecolor{lightgray}{rgb}{0.52, 0.52, 0.51}
+  - \definecolor{boxcolor}{rgb}{0.52, 0.52, 0.51}
   - \pagestyle{fancy}
   - \fancyhf{}
   - \renewcommand{\headrulewidth}{0pt}
   - \fancyfoot[C]{\thepage}
-  - '\fancyfoot[R]{\footnotesize \color{lightgray} \textsc{Updated \today}}'
+  - '\fancyfoot[R]{\footnotesize \color{boxcolor} \textsc{Updated \today}}'
   - '\titleformat{\section}{\centering\huge\scshape}{\thesection}{1em}{}'
   - '\titleformat{\subsection}{\centering\Large\scshape}{\thesubsection}{1em}{}'
   - '\titleformat{\subsubsection}{\large\scshape}{\thesubsubsection}{1em}{}'
-  - '\newcommand{\fn}[1]{\hfill \textsc{\small{\color{lightgray} #1}}}'
+  - '\newcommand{\fn}[1]{\hfill \textsc{\small{\color{boxcolor} #1}}}'
   - '\newcommand{\tabbedparagraph}[2]{\noindent#1\hspace{10pt}\begin{minipage}[t]{\dimexpr\linewidth-55pt}#2\end{minipage}\\[1em]}'
 ---
 
@@ -50,6 +50,8 @@ unfunded <- 0
 ***Primary Appointment***  
 Department of Statistical Sciences  
 Wake Forest University  
+127 Manchester Hall  
+Winston-Salem, NC 27109
 
 \
 \
@@ -64,14 +66,15 @@ Wake Forest University School of Medicine
 :::
 
 ::: {#second}
+Office: 342 Manchester Hall  
+Email: mcgowald@wfu.edu  
+Website: \href{https://www.lucymcgowan.com}{www.lucymcgowan.com}  
 
-\vspace{-1.75cm}
+\vspace{1.75cm}
 
 \faGithub \hspace{0.1cm} \href{http://github.com/LucyMcGowan}{LucyMcGowan}  
 \faTwitter \hspace{0.1cm}  \href{http://twitter.com/LucyStats}{LucyStats}  
-\aiOrcid \hspace{0.1cm}  \href{http://orcid.org/0000-0001-7297-9359}{0000-0001-7297-9359}  
-\href{https://www.lucymcgowan.com}{www.lucymcgowan.com}  
-
+\aiOrcid \hspace{0.1cm}  \href{http://orcid.org/0000-0001-7297-9359}{0000-0001-7297-9359}
 :::
 
 :::
@@ -349,13 +352,13 @@ funding %>%
 
 \vspace{-0.75cm}
 
-### Pending
+### Under preparation
 
 
 ```{r, echo = FALSE, results = "asis"}
 funding %>%
  filter(funded == "pending") %>%
-  glue::glue_data("\\tabbedparagraph{<start><ifelse(!is.na(end), glue::glue('-{end}'), '\\\\hspace{0.8cm}')>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
+  glue::glue_data("\\tabbedparagraph{<when>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
                   .open = "<", .close = ">")
 
 ```
