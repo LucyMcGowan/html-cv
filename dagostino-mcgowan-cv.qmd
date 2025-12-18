@@ -280,9 +280,8 @@ presentations <- read_sheet("1-PItelqpv0Sb_LdiEDqb8O3D_Roii5nVTL07IRVbRtA",
 presentations %>%
   filter(invited == 1 & !(what %in% c("Workshop", "Panel")), type == "conference") %>%
   glue::glue_data("\\par
-\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
-"\\begin{quote}<gsub('\\\\*', '', who)>, ",
-"\\href{<ifelse(is.na(link), slides, link)>}{``<title>.\"}\\end{quote}",
+\\needspace{4\\baselineskip}**<where>**
+\\begin{quote}\\href{<ifelse(!is.na(slides), slides, '')>}{``<ifelse(!is.na(slides), title, title)>.''}\\end{quote}",
 .open = "<", .close = ">")
 ```
 
@@ -291,10 +290,12 @@ presentations %>%
 ```{r, results = "asis", message = FALSE, warning = FALSE, echo = FALSE}
 presentations %>%
   filter(invited == 1 & !(what %in% c("Workshop", "Panel")), type == "seminar") %>%
-  glue::glue_data("\\par
-\\needspace{4\\baselineskip}**<where>**",
-"\\begin{quote}\\href{<ifelse(is.na(link), slides, link)>}{``<title>.\"}\\end{quote}",
-.open = "<", .close = ">")
+  glue::glue_data(
+    "\\par
+\\needspace{4\\baselineskip}**<where>**
+\\begin{quote}\\href{<ifelse(!is.na(slides), slides, '')>}{``<ifelse(!is.na(slides), title, title)>.''}\\end{quote}",
+    .open = "<", .close = ">"
+  )
 ```
 
 
@@ -305,9 +306,8 @@ presentations %>%
   filter(what %in% c("Workshop", "Panel", "Lecture")) %>%
   arrange(desc(start)) %>%
   glue::glue_data("\\par
-\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
-"\\begin{quote}<gsub('\\\\*', '', who)>, ",
-"{``<title>.\"}\\end{quote}",
+\\needspace{4\\baselineskip}**<where>**
+\\begin{quote}\\href{<ifelse(!is.na(slides), slides, '')>}{``<ifelse(!is.na(slides), title, title)>.''}\\end{quote}",
 .open = "<", .close = ">")
 ```
 
@@ -317,9 +317,8 @@ presentations %>%
 presentations %>%
   filter(invited == 0 & !(what %in% c("Workshop", "Panel"))) %>% 
   glue::glue_data("\\par
-\\needspace{4\\baselineskip}**<where>** \\fn{<what>}",
-"\\begin{quote}<gsub('\\\\*', '', who)>, ",
-"\\href{<link>}{``<title>.\"}\\end{quote}",
+\\needspace{4\\baselineskip}**<where>**
+\\begin{quote}\\href{<ifelse(!is.na(slides), slides, '')>}{``<ifelse(!is.na(slides), title, title)>.''}\\end{quote}",
 .open = "<", .close = ">")
 ```
 
