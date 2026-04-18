@@ -33,6 +33,7 @@ header-includes:
 
 ```{r, echo = FALSE}
 unfunded <- 0
+in_prep <- 0
 ```
 
 # Curriculum Vitae
@@ -89,7 +90,9 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 data <- read_sheet("1w5Fr0sKH085KmMg_XP06Nv4AdDD1cwwauxlFY0kRTTU",
                    col_types = "ccc") %>%
-  arrange(label, desc(when))
+  arrange(label, desc(when)) %>%
+  mutate(across(everything(), ~stringr::str_replace_all(., "&", "\\\\&")))
+
 ```
 
 
@@ -351,14 +354,19 @@ funding %>%
 
 \vspace{-0.75cm}
 
-### Under preparation
-
+```{r, echo = FALSE, results = "asis"}
+if (in_prep) {
+  glue::glue("### Under preparation")
+}
+```
 
 ```{r, echo = FALSE, results = "asis"}
+if (in_prep) {
 funding %>%
  filter(funded == "pending") %>%
   glue::glue_data("\\tabbedparagraph{<when>}{<funder>, \\textit{<what>}<ifelse(!is.na(PI), glue::glue(' (PI: {PI})'), '')>\\\\ Role: <role>  <ifelse(!is.na(amount), glue::glue('({amount})'), '')>} \n\n",
                   .open = "<", .close = ">")
+}
 
 ```
 
